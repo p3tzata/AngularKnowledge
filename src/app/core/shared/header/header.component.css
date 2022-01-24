@@ -1,0 +1,17 @@
+    .mainButton button {
+        margin: 30px;
+        border-radius: 12px;
+    }
+    
+    .logoutButton {
+        margin: 70%;
+    }
+    
+    .logoutButton span {
+        padding: 10px;
+        font-size: 16px;
+    }
+    
+    button:hover {
+        color: red;
+    }
