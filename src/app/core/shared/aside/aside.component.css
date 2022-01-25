@@ -1,0 +1,12 @@
+a:hover {
+    color: red;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+mat-icon {
+    padding-right: 10px;
+}

@@ -19,7 +19,8 @@ import { MaterialModule } from '../material.module';
   ],
   exports: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    AsideComponent
   ]
 })
 export class CoreModule { }
