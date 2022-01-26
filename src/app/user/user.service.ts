@@ -6,9 +6,6 @@ import { IUser } from '../shared/interfaces/user';
   providedIn: 'root'
 })
 export class UserService {
-  static loadUsers(): any {
-    throw new Error('Method not implemented.');
-  }
 
   constructor(private httpClient: HttpClient) { }
 

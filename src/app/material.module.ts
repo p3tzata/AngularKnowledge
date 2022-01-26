@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 @NgModule ({
@@ -32,7 +34,9 @@ import {MatTableModule} from '@angular/material/table';
     MatInputModule,
     MatCardModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    MatTabsModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule {

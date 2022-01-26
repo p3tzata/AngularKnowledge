@@ -11,6 +11,8 @@ import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { UserModule } from './user/user.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserRoutingModule } from './user/user-routing.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [

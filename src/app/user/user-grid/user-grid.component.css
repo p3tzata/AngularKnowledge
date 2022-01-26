@@ -1,7 +1,21 @@
+.wrapper {
+    width: 80%;
+    margin: 10px 10%;
+}
+
 table {
     width: 100%;
 }
 
 th.mat-sort-header-sorted {
     color: black;
+}
+
+ng-container .edit {
+    text-transform: uppercase;
+}
+
+.filter {
+    text-align: left;
+    font-size: 18px;
 }

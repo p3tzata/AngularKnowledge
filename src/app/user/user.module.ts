@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserGridComponent } from './user-grid/user-grid.component';
+import { UserRoutingModule } from './user-routing.module';
+import { MatTableModule } from '@angular/material/table';
+import { MaterialModule } from '../material.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -9,7 +13,10 @@ import { UserGridComponent } from './user-grid/user-grid.component';
     UserGridComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    UserRoutingModule,
+    MaterialModule,
+    RouterModule
   ]
 })
 export class UserModule { }
