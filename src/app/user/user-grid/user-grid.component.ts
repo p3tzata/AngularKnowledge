@@ -2,8 +2,9 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
-import { IUser } from 'src/app/shared/interfaces/user';
+import { IUser } from '../../shared/interfaces/user';
 import { UserService } from '../user.service';
+
 
 @Component({
   selector: 'app-user-grid',
@@ -12,15 +13,16 @@ import { UserService } from '../user.service';
 })
 export class UserGridComponent implements AfterViewInit {
 
-  users$ = new Observable<IUser[]>();
+  users$:Observable<IUser[]> ;
   
 
   displayedColumns: string[] = ['name', 'username', 'email', 'active', 'edit', 'delete'];
-  dataSource = this.users$
+  //dataSource = this.users$
 
   constructor(private _liveAnnouncer: LiveAnnouncer, userService: UserService) {
     this.users$ = userService.loadUsers();
-    debugger;
+
+    //debugger;
   }
 
   @ViewChild(MatSort) sort!: MatSort;
