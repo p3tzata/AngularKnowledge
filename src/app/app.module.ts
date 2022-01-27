@@ -13,6 +13,7 @@ import { UserModule } from './user/user.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserRoutingModule } from './user/user-routing.module';
 import { RouterModule } from '@angular/router';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { RouterModule } from '@angular/router';
     UserModule,
     ReactiveFormsModule,
     StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({}),
     
   ],
   providers: [],

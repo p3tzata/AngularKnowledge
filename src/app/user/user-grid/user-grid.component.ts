@@ -1,8 +1,11 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { IUser } from '../../shared/interfaces/user';
+import { loadUsers, } from '../+store/user/action';
+import { IUser } from '../shared/interface/user';
 import { UserService } from '../user.service';
 
 
@@ -11,25 +14,30 @@ import { UserService } from '../user.service';
   templateUrl: './user-grid.component.html',
   styleUrls: ['./user-grid.component.css']
 })
-export class UserGridComponent implements AfterViewInit {
+export class UserGridComponent implements OnInit {
 
   users$:Observable<IUser[]> ;
   
 
   displayedColumns: string[] = ['name', 'username', 'email', 'active', 'edit', 'delete'];
-  //dataSource = this.users$
+  dataSource = new MatTableDataSource<IUser>();
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, userService: UserService) {
+  constructor(private _liveAnnouncer: LiveAnnouncer, userService: UserService,
+    private store: Store<any>) {
     this.users$ = userService.loadUsers();
 
     //debugger;
   }
+  ngOnInit(): void {
+    this.users$.subscribe(users => {
+      this.dataSource = new MatTableDataSource(users);
+    });
+
+    this.store.dispatch(loadUsers())
+
+  }
 
   @ViewChild(MatSort) sort!: MatSort;
-
-  ngAfterViewInit() {
-  
-  }
 
   public doFilter = (value: string) => {
     // this.dataSource.filter = value.trim().toLocaleLowerCase();
@@ -42,5 +50,9 @@ export class UserGridComponent implements AfterViewInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  deleteUserHandler(name: string) {
+    this.users$.pipe().subscribe()
   }
 }
