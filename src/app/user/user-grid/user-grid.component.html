@@ -1,12 +1,26 @@
 <div class="wrapper">
     <mat-tab-group>
         <mat-tab label="Услуги">
-            <div class="filter">
-                <mat-form-field>
-                    <input matInput type="text" placeholder="Търсене">
-                </mat-form-field>
-            </div>
-
+            <section>
+                <div class="filter">
+                    <mat-form-field>
+                        <input matInput type="text" placeholder="Търсене">
+                    </mat-form-field>
+                </div>
+                <div class="autoComplete">
+                    <form class="form">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Артикул</mat-label>
+                            <input type="text" placeholder="Избери Артикул" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of options" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </form>
+                </div>
+            </section>
             <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
                 <!-- name -->
                 <ng-container matColumnDef="name">
@@ -64,7 +78,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns; "></tr>
             </table>
 
-            <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+            <mat-paginator [length]="100" [pageSize]="20" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
             </mat-paginator>
         </mat-tab>
         <mat-tab label="Линии"> Content 2 </mat-tab>

@@ -18,4 +18,12 @@ ng-container .edit {
 .filter {
     text-align: left;
     font-size: 18px;
+    display: inline;
+    margin: 10px 30px;
+}
+
+.autoComplete,
+.form {
+    display: inline;
+    font-size: 14px;
 }

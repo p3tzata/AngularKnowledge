@@ -1,9 +1,10 @@
 ﻿import { createReducer } from "@ngrx/store";
-import { on } from "events";
-import { loadUsers } from "./action";
+import {  on } from "@ngrx/store";
+import { IUser } from "../../shared/interface/user";
+import {  loadUserSuccess } from "./action";
 
 export interface IUserListState {
-    readonly users: any[] | null
+    readonly users: IUser[] | null;
 };
 
 
@@ -13,5 +14,5 @@ const initialState: IUserListState =  {
 
 export const userListReducer = createReducer(
     initialState,
-    // on(loadUsers, (state, { users }) => ({ ...state, users }))
+    on(loadUserSuccess, (state, { users }) => ({ ...state, users })),
 );

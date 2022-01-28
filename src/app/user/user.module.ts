@@ -4,9 +4,10 @@ import { UserGridComponent } from './user-grid/user-grid.component';
 import { UserRoutingModule } from './user-routing.module';
 import { MaterialModule } from '../material.module';
 import { StoreModule } from '@ngrx/store';
-// import { reducers } from './+store/user';
 import { EffectsModule } from '@ngrx/effects';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserListEffects } from './+store/user/effects';
+import { reducers } from './+store/user';
 
 
 
@@ -18,7 +19,9 @@ import { UserListEffects } from './+store/user/effects';
     CommonModule,
     UserRoutingModule,
     MaterialModule,
-    // StoreModule.forFeature('user', reducers),
+    FormsModule,
+    ReactiveFormsModule,
+    StoreModule.forFeature('user', reducers),
     EffectsModule.forFeature([
       UserListEffects
     ])
