@@ -4,12 +4,9 @@ import { IUserState } from ".";
 const userModuleSelector = createFeatureSelector<IUserState>('user')
 
 
-export const selectUserList = createSelector(
+ const selectUserList = createSelector(
     userModuleSelector,
     state => state.list
 );
 
-export const selectUserListUsers = createSelector(
-    selectUserList,
-    state => state.users
-);
+export const selectUserListUsers = createSelector(selectUserList, s => s.users);

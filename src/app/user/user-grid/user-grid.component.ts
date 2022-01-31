@@ -1,13 +1,15 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { loadUsers, } from '../+store/user/action';
+import { selectUserListUsers } from '../+store/user/selector';
 import { IUser } from '../shared/interface/user';
-import { UserService } from '../user.service';
+import { UserService } from '../shared/service/user.service';
+
 
 
 @Component({
@@ -15,47 +17,54 @@ import { UserService } from '../user.service';
   templateUrl: './user-grid.component.html',
   styleUrls: ['./user-grid.component.css']
 })
-export class UserGridComponent implements OnInit {
-
-  users$:Observable<IUser[]>;
-  
+export class UserGridComponent implements OnInit, AfterViewInit {  
 
   displayedColumns: string[] = ['name', 'username', 'email', 'active', 'edit', 'delete'];
   dataSource = new MatTableDataSource<IUser>();
+  isActive!: boolean;
 
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, userService: UserService,
-    private store: Store<any>) {
-    this.users$ = userService.loadUsers();
-  }
+  constructor(private _liveAnnouncer: LiveAnnouncer,
+    private userService: UserService,
+    private store: Store<any>
+    ) {  }
 
   ngOnInit(): void {
-    this.users$.subscribe(users => {
-      this.dataSource = new MatTableDataSource(users);
-    });
 
     this.store.dispatch(loadUsers());
+    this.store.select(selectUserListUsers).subscribe(users => {
+      this.dataSource = new MatTableDataSource(users!);
+    });
+    debugger;
   }
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+}
   announceSortChange(sortState: Sort) {
     
     if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction} ending`);
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
 
-  deleteUserHandler(name: string) {
-    this.users$.pipe()
-  }
+  deleteUserHandler(id: number) {
+    this.userService.deleteUser(id)
+  };
+
+  checkIsActive(): boolean {
+    return this.isActive = true;
+  };
 
 }

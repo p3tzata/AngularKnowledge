@@ -1,7 +1,7 @@
 ﻿import { Injectable } from "@angular/core";
 import { Actions, createEffect } from "@ngrx/effects";
-import { UserService } from "../../user.service";
 import { catchError, map } from 'rxjs/operators';
+import { UserService } from "../../shared/service/user.service";
 import {  loadUserFailure, loadUserSuccess } from "./action";
 
 @Injectable()

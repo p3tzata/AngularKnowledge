@@ -12,6 +12,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule ({
@@ -38,7 +39,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatTableModule,
     MatTabsModule,
     MatPaginatorModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDialogModule,
   ]
 })
 export class MaterialModule {
