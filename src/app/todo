@@ -1,4 +1,11 @@
 1. shared user interface -> src/user/share/user.model
+https://angular.io/guide/styleguide#overall-structural-guidelines
+
+
 2a. https://stackoverflow.com/questions/57770423/how-to-use-the-mattabledatasource-with-an-observable
 2b. https://material.angular.io/components/table/overview
+
+
+
 3. load user array and every things in redux
+load from api array => store => select from store and into mat table.
