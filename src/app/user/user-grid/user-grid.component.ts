@@ -1,12 +1,15 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { loadUsers, } from '../+store/user/action';
 import { selectUserListUsers } from '../+store/user/selector';
+import { ConfirmationDialogComponent } from '../dialog/confirmation-dialog/confirmation-dialog.component';
 import { IUser } from '../shared/interface/user';
 import { UserService } from '../shared/service/user.service';
 
@@ -28,22 +31,26 @@ export class UserGridComponent implements OnInit, AfterViewInit {
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
     private userService: UserService,
-    private store: Store<any>
+    private store: Store<any>,
+    private dialog: MatDialog
     ) {  }
 
   ngOnInit(): void {
 
     this.store.dispatch(loadUsers());
     this.store.select(selectUserListUsers).subscribe(users => {
-      this.dataSource = new MatTableDataSource(users!);
+      this.dataSource = new MatTableDataSource<IUser>(users!);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
-    debugger;
   }
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(event: Event) {
@@ -67,4 +74,16 @@ export class UserGridComponent implements OnInit, AfterViewInit {
     return this.isActive = true;
   };
 
+  openDialog() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
+      data:{
+        message: 'Are you sure want to delete?',
+        buttonText: {
+          ok: 'Yes',
+          cancel: 'No'
+        }
+      }
+    });
+
+}
 }
