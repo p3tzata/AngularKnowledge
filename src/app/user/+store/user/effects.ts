@@ -6,7 +6,7 @@ import {  loadUserFailure, loadUserSuccess } from "./action";
 
 @Injectable()
 export class UserListEffects {
-
+    
     loadUsers = createEffect(() => this.ations$.pipe(
         () => this.userService.loadUsers().pipe(
             map(users => loadUserSuccess({ users })),

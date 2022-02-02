@@ -9,7 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { MaterialModule } from './material.module';
 import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
-import { UserModule } from './user/user.module';
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserRoutingModule } from './user/user-routing.module';
 import { RouterModule } from '@angular/router';
@@ -26,7 +26,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     MaterialModule,
     HttpClientModule,
     CoreModule,
-    UserModule,
+    
     ReactiveFormsModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),

@@ -4,6 +4,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { AsideComponent } from './shared/aside/aside.component';
 import { MaterialModule } from '../material.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -15,7 +16,8 @@ import { MaterialModule } from '../material.module';
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    RouterModule,
   ],
   exports: [
     HeaderComponent,

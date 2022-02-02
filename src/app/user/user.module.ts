@@ -10,6 +10,7 @@ import { UserListEffects } from './+store/user/effects';
 import { reducers } from './+store/user';
 import { DeleteDialogComponent } from './dialog/delete-dialog/delete-dialog.component';
 import { EditDialogComponent } from './dialog/edit-dialog/edit-dialog.component';
+import { RouterModule } from '@angular/router';
 
 
 
