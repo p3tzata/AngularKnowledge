@@ -8,14 +8,16 @@ import { EffectsModule } from '@ngrx/effects';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserListEffects } from './+store/user/effects';
 import { reducers } from './+store/user';
-import { ConfirmationDialogComponent } from './dialog/confirmation-dialog/confirmation-dialog.component';
+import { DeleteDialogComponent } from './dialog/delete-dialog/delete-dialog.component';
+import { EditDialogComponent } from './dialog/edit-dialog/edit-dialog.component';
 
 
 
 @NgModule({
   declarations: [
     UserGridComponent,
-    ConfirmationDialogComponent
+    DeleteDialogComponent,
+    EditDialogComponent
   ],
   imports: [
     CommonModule,

@@ -6,10 +6,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { loadUsers, } from '../+store/user/action';
 import { selectUserListUsers } from '../+store/user/selector';
-import { ConfirmationDialogComponent } from '../dialog/confirmation-dialog/confirmation-dialog.component';
+import { DeleteDialogComponent } from '../dialog/delete-dialog/delete-dialog.component';
+import { EditDialogComponent } from '../dialog/edit-dialog/edit-dialog.component';
 import { IUser } from '../shared/interface/user';
 import { UserService } from '../shared/service/user.service';
 
@@ -20,11 +20,12 @@ import { UserService } from '../shared/service/user.service';
   templateUrl: './user-grid.component.html',
   styleUrls: ['./user-grid.component.css']
 })
-export class UserGridComponent implements OnInit, AfterViewInit {  
+export class UserGridComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['name', 'username', 'email', 'active', 'edit', 'delete'];
+  displayedColumns: string[] = ['checkbox', 'name', 'username', 'email', 'input', 'active', 'edit', 'delete'];
   dataSource = new MatTableDataSource<IUser>();
   isActive!: boolean;
+  dataFromDialog: any;
 
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
@@ -33,7 +34,7 @@ export class UserGridComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private store: Store<any>,
     private dialog: MatDialog
-    ) {  }
+  ) { }
 
   ngOnInit(): void {
 
@@ -56,9 +57,9 @@ export class UserGridComponent implements OnInit, AfterViewInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-}
+  }
   announceSortChange(sortState: Sort) {
-    
+
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction} ending`);
     } else {
@@ -75,8 +76,8 @@ export class UserGridComponent implements OnInit, AfterViewInit {
   };
 
   openDialog() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent,{
-      data:{
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: {
         message: 'Are you sure want to delete?',
         buttonText: {
           ok: 'Yes',
@@ -84,6 +85,17 @@ export class UserGridComponent implements OnInit, AfterViewInit {
         }
       }
     });
+  };
 
-}
+  edit(): void {
+    const dialogRef = this.dialog.open(EditDialogComponent,
+      { width: '550px', height: '550px' });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      this.dataFromDialog = data.form;
+      if (data.clicked === 'submit') {
+        console.log('Sumbit button clicked')
+      }
+    });
+  };
 }

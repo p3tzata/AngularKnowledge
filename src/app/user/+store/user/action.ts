@@ -17,3 +17,8 @@ export const loadUserFailure = createAction(
     `${namescapce} loadUsersFailure`,
     props<{ error: Error }>()
 );
+
+export const deleteUser = createAction(
+    `${namescapce} delete user`,
+    props<{ name: string}>()
+);

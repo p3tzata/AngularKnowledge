@@ -9,3 +9,12 @@ https://angular.io/guide/styleguide#overall-structural-guidelines
 
 3. load user array and every things in redux
 load from api array => store => select from store and into mat table.
+
+4. Сортирането да работи.
+5. Paginator да работи.
+6. При натискане на бутон active да се обработи с Patch заявка към базата, да се обработи локално без да се зарежда отново целия списък с потребители.
+7. При едит, модален прозорец при който има форма за промяна с вход текст , auto complete който да се изпълнява след 2 секунди, date picker, checkbox. 
+8. Колона с input text  при запис да се направи син цвят на колоната
+9. Delete с модален прозорец
+10. Checkbox при който след маркиране да се оцвети реда на който е натиснат.
+11. Спиннър с ефект който да се върти докато се заредят потребителите.
