@@ -11,8 +11,10 @@ https://angular.io/guide/styleguide#overall-structural-guidelines
 load from api array => store => select from store and into mat table.
 
 
-4. ngToаst
-- best practices - interceptorta ili effects? find url.
+4. Researches
+- best practices - ng toast - in effects
+- ngrx entity - вместо манипулация с твърди връзки.
+
 
 
 ERRORS in effects:

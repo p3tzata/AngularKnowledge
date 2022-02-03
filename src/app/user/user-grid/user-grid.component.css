@@ -27,3 +27,13 @@ ng-container .edit {
     display: inline;
     font-size: 14px;
 }
+
+.mat-row:hover .mat-cell {
+    border-color: currentColor;
+}
+
+.mat-row .mat-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}

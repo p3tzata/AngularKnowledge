@@ -2,7 +2,7 @@
 import { Actions, createEffect } from "@ngrx/effects";
 import { catchError, map } from 'rxjs/operators';
 import { UserService } from "../../shared/service/user.service";
-import {  loadUserFailure, loadUserSuccess } from "./action";
+import {  loadUserFailure, loadUserSuccess } from "./user.action";
 
 @Injectable()
 export class UserListEffects {

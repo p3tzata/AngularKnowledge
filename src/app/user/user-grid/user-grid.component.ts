@@ -7,8 +7,8 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { loadUsers, } from '../+store/user/action';
-import { selectUserListUsers } from '../+store/user/selector';
+import { loadUsers, } from '../+store/user/user.action';
+import { selectUserListUsers } from '../+store/user/user.selector';
 import { DeleteDialogComponent } from '../dialog/delete-dialog/delete-dialog.component';
 import { EditDialogComponent } from '../dialog/edit-dialog/edit-dialog.component';
 import { IUser } from '../shared/interface/user';
@@ -78,10 +78,11 @@ export class UserGridComponent implements OnInit, AfterViewInit,OnDestroy {
     return this.isActive = true;
   };
 
-  openDialog() {
+  openDialog(name: string) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
         message: 'Are you sure want to delete?',
+        name: name,
         buttonText: {
           ok: 'Yes',
           cancel: 'No'
