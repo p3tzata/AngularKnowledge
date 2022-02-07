@@ -37,3 +37,11 @@ ng-container .edit {
     border-top: 1px solid transparent;
     cursor: pointer;
 }
+
+.demo-row-is-clicked {
+    background: lightblue;
+}
+
+th {
+    padding: 0px 10px;
+}

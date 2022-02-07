@@ -43,3 +43,5 @@ loadPhotos$ = createEffect(() =>
  Delete с модален прозорец
  Checkbox при който след маркиране да се оцвети реда на който е натиснат.
  Спиннър с ефект който да се върти докато се заредят потребителите.
+
+ https://blog.angular-university.io/ngrx-entity/

@@ -14,6 +14,7 @@ import { EditDialogComponent } from '../dialog/edit-dialog/edit-dialog.component
 import { IUser } from '../shared/interface/user';
 import { UserService } from '../shared/service/user.service';
 import {takeUntil} from 'rxjs/operators'
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class UserGridComponent implements OnInit, AfterViewInit,OnDestroy {
   dataSource = new MatTableDataSource<IUser>();
   isActive!: boolean;
   dataFromDialog: any;
+  selection = new SelectionModel<IUser>(true, []);
 
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
@@ -90,6 +92,30 @@ export class UserGridComponent implements OnInit, AfterViewInit,OnDestroy {
       }
     });
   };
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: IUser): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.name + 1}`;
+  }
 
   edit(): void {
     const dialogRef = this.dialog.open(EditDialogComponent,
