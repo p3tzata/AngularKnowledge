@@ -38,8 +38,8 @@ ng-container .edit {
     cursor: pointer;
 }
 
-.demo-row-is-clicked {
-    background: lightblue;
+th:checked {
+    background: red;
 }
 
 th {

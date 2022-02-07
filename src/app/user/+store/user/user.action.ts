@@ -21,9 +21,29 @@ export const loadUserFailure = createAction(
 export const deleteUser = createAction(
     `${namescapce} deleteUser`,
     props<{ name: string}>()
+); 
+
+export const deleteUserSuccess = createAction(
+    `${namescapce} deleteUserSuccess`,
+    props<{ name: string }>()
+);
+
+export const deleteUserFailure = createAction(
+    `${namescapce} deleteUserFailure`,
+    props<{ error: any}>()
 );
 
 export const editUser = createAction(
     `${namescapce} edit user`,
     props<{ name: string}>()
+);
+
+export const editUserSuccess = createAction(
+    `${namescapce} editUserSuccess`,
+    props<{ name: string}>()
+);
+
+export const editUserFailure = createAction(
+    `${namescapce} editUserFailure`,
+    props<{ error: any}>()
 );

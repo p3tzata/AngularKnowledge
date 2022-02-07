@@ -72,10 +72,6 @@ export class UserGridComponent implements OnInit, AfterViewInit,OnDestroy {
     }
   }
 
-  deleteUserHandler(id: number) {
-    this.userService.deleteUser(id)
-  };
-
   checkIsActive(): boolean {
     return this.isActive = true;
   };

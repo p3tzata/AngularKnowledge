@@ -15,7 +15,8 @@ export class UserService {
     return this.httpClient.get<IUser[]>('https://jsonplaceholder.typicode.com/users')
   }
 
-  deleteUser(id: number) {
-    return this.httpClient.delete('https://jsonplaceholder.typicode.com/users/delete/' + id)
+  deleteUser(name: string) {
+    debugger;
+    return this.httpClient.delete('https://jsonplaceholder.typicode.com/users/delete/' + name)
   }
 }
