@@ -9,14 +9,19 @@ import { IUser } from '../interface/user';
 })
 export class UserService {
 
+  url: string = 'https://jsonplaceholder.typicode.com/users/';
+
   constructor(private httpClient: HttpClient) { }
 
   loadUsers():Observable<IUser[]> {
-    return this.httpClient.get<IUser[]>('https://jsonplaceholder.typicode.com/users')
-  }
+    return this.httpClient.get<IUser[]>(this.url)
+  };
 
-  deleteUser(name: string) {
-    debugger;
-    return this.httpClient.delete('https://jsonplaceholder.typicode.com/users/delete/' + name)
-  }
+  deleteUser(id: number) {
+    return this.httpClient.delete(this.url + id)
+  };
+
+  editUser(user: IUser) {
+    return this.httpClient.patch(this.url + user.id, undefined)
+  };
 }

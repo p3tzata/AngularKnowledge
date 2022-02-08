@@ -6,22 +6,24 @@
         <form [formGroup]="form">
             <mat-form-field appearance="standard" hintLabel="Username is required">
                 <mat-label>Name</mat-label>
-                <input matInput placeholder="Enter your name" formControlName="name">
+                <input matInput [(ngModel)]="user.name" formControlName="name">
             </mat-form-field>
 
             <mat-form-field appearance="standard" hintLabel="Username is required">
                 <mat-label>Username</mat-label>
-                <textarea matInput placeholder="Username" formControlName="username"></textarea>
+                <input matInput [(ngModel)]="user.username" formControlName="username">
             </mat-form-field>
 
-            <mat-form-field appearance="fill" hintLabel="Country name required">
+            <mat-form-field appearance="standard" hintLabel="Email is required">
                 <mat-label>Email</mat-label>
-                <mat-select matNativeControl name="country" formControlName="country">
-                    <mat-option value="india">India</mat-option>
-                    <mat-option value="france">France</mat-option>
-                    <mat-option value="germany">Germany</mat-option>
-                    <mat-option value="japan">Japan</mat-option>
-                    <mat-option value="Mongolia">Mongolia</mat-option>
+                <input matInput [(ngModel)]="user.email" formControlName="email">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" hintLabel="Product is required">
+                <mat-label>Product</mat-label>
+                <mat-select matNativeControl name="product" formControlName="product">
+                    <mat-option value="caffe">caffe</mat-option>
+                    <mat-option value="water">water</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="fill">

@@ -20,12 +20,12 @@ export const loadUserFailure = createAction(
 
 export const deleteUser = createAction(
     `${namescapce} deleteUser`,
-    props<{ name: string}>()
+    props<{ id: number }>()
 ); 
 
 export const deleteUserSuccess = createAction(
     `${namescapce} deleteUserSuccess`,
-    props<{ name: string }>()
+    props<{ id: number }>()
 );
 
 export const deleteUserFailure = createAction(
@@ -35,12 +35,12 @@ export const deleteUserFailure = createAction(
 
 export const editUser = createAction(
     `${namescapce} edit user`,
-    props<{ name: string}>()
+    props<{ user: IUser}>()
 );
 
 export const editUserSuccess = createAction(
     `${namescapce} editUserSuccess`,
-    props<{ name: string}>()
+    props<{ user: IUser }>()
 );
 
 export const editUserFailure = createAction(

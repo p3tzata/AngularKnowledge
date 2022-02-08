@@ -29,8 +29,7 @@ export class DeleteDialogComponent {
     }
   }
   onConfirmClick(): void {
-    const name: string = this.data.name;
-    this.store.dispatch(deleteUser({ name }));
+    this.store.dispatch(deleteUser({ id: this.data.id }));
     this.dialogRef.close(true);
   }
 

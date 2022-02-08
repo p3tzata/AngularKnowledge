@@ -12,8 +12,7 @@ import { selectUserListUsers } from '../+store/user/user.selector';
 import { DeleteDialogComponent } from '../dialog/delete-dialog/delete-dialog.component';
 import { EditDialogComponent } from '../dialog/edit-dialog/edit-dialog.component';
 import { IUser } from '../shared/interface/user';
-import { UserService } from '../shared/service/user.service';
-import {takeUntil} from 'rxjs/operators'
+import { takeUntil } from 'rxjs/operators'
 import { SelectionModel } from '@angular/cdk/collections';
 
 
@@ -22,24 +21,22 @@ import { SelectionModel } from '@angular/cdk/collections';
   templateUrl: './user-grid.component.html',
   styleUrls: ['./user-grid.component.css']
 })
-export class UserGridComponent implements OnInit, AfterViewInit,OnDestroy {
+export class UserGridComponent implements OnInit, AfterViewInit, OnDestroy {
 
   displayedColumns: string[] = ['checkbox', 'name', 'username', 'email', 'input', 'active', 'edit', 'delete'];
   dataSource = new MatTableDataSource<IUser>();
-  isActive!: boolean;
   dataFromDialog: any;
   selection = new SelectionModel<IUser>(true, []);
 
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
-  killSubscribtion= new Subject();
+  killSubscribtion = new Subject();
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
-    private userService: UserService,
     private store: Store<any>,
     private dialog: MatDialog
   ) { }
-  
+
 
   ngOnInit(): void {
 
@@ -72,15 +69,15 @@ export class UserGridComponent implements OnInit, AfterViewInit,OnDestroy {
     }
   }
 
-  checkIsActive(): boolean {
-    return this.isActive = true;
+  checkIsActive(id: number): boolean {
+    return true;
   };
 
-  openDialog(name: string) {
+  openDialog(id: number) {
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
       data: {
         message: 'Are you sure want to delete?',
-        name: name,
+        id: id,
         buttonText: {
           ok: 'Yes',
           cancel: 'No'
@@ -112,10 +109,17 @@ export class UserGridComponent implements OnInit, AfterViewInit,OnDestroy {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.name + 1}`;
   }
-
-  edit(): void {
+// 9:15 - 10:45 bind user to edit modal dialog
+  edit(user: IUser): void {
     const dialogRef = this.dialog.open(EditDialogComponent,
-      { width: '550px', height: '550px' });
+      {
+        data: {
+          width: '550px',
+          height: '550px',
+          user: user,
+        }
+      }
+    );
 
     dialogRef.afterClosed().subscribe((data) => {
       this.dataFromDialog = data.form;
@@ -126,8 +130,8 @@ export class UserGridComponent implements OnInit, AfterViewInit,OnDestroy {
   };
 
   ngOnDestroy(): void {
-   this.killSubscribtion.next();
-   this.killSubscribtion.complete();
+    this.killSubscribtion.next();
+    this.killSubscribtion.complete();
   }
 
 }

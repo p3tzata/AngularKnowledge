@@ -1,4 +1,4 @@
-﻿import { createReducer } from "@ngrx/store";
+﻿import { createReducer, State } from "@ngrx/store";
 import {  on } from "@ngrx/store";
 import { IUser } from "../../shared/interface/user";
 import { deleteUserSuccess, editUserSuccess, loadUserSuccess } from "./user.action";
@@ -15,13 +15,17 @@ const initialState: IUserListState =  {
 export const userListReducer = createReducer(
     initialState,
     on(loadUserSuccess, (state, { users }) => ({ ...state, users })),
-    on(deleteUserSuccess, (state,  { name }) => {
+    on(deleteUserSuccess, (state,  { id }) => {
         return {
             ...state,
-            users: state.users.filter((user) => user.name != name)
+            users: state.users.filter((user) => user.id !== id)
         }
     }),
-    on(editUserSuccess, (state, { name }) => {
-        
+    on(editUserSuccess, (state, { user }) => {
+        const index = state.users.indexOf(user);
+        return {
+            ...state,
+            users: state.users.splice(index, 1, user)
+        }
     })
 );
