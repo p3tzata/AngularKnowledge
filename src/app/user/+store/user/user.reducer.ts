@@ -22,10 +22,12 @@ export const userListReducer = createReducer(
         }
     }),
     on(editUserSuccess, (state, { user }) => {
-        const index = state.users.indexOf(user);
+        const updatedUsers = state.users.map((u) => {
+            return user.id === u.id ? user : u;
+        })
         return {
             ...state,
-            users: state.users.splice(index, 1, user)
+            users: updatedUsers,
         }
     })
 );
