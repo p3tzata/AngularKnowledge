@@ -14,7 +14,7 @@ import { EditDialogComponent } from '../dialog/edit-dialog/edit-dialog.component
 import { IUser } from '../shared/interface/user';
 import { takeUntil } from 'rxjs/operators'
 import { SelectionModel } from '@angular/cdk/collections';
-
+import {IAppState} from '../../+store/'
 
 @Component({
   selector: 'app-user-grid',
@@ -33,7 +33,7 @@ export class UserGridComponent implements OnInit, AfterViewInit, OnDestroy {
   killSubscribtion = new Subject();
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
-    private store: Store<any>,
+    private store: Store<IAppState>,
     private dialog: MatDialog
   ) { }
 

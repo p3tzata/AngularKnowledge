@@ -46,7 +46,7 @@ export class EditDialogComponent {
         username: this.form.controls['username'].value as string,
         email: this.form.controls['email'].value as string,
       }
-      debugger;
+      //debugger;
       this.store.dispatch(editUser({ user: updatedUser }))
     }
   }

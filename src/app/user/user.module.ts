@@ -26,7 +26,7 @@ import { RouterModule } from '@angular/router';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forFeature('user', reducers),
+    StoreModule.forFeature('userModule', reducers),
     EffectsModule.forFeature([
       UserListEffects
     ])

@@ -1,12 +1,12 @@
 ﻿import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { IUserState } from "..";
+import { IUserModuleState } from "..";
 
-const userModuleSelector = createFeatureSelector<IUserState>('user')
+const userModuleSelector = createFeatureSelector<IUserModuleState>('userModule')
 
 
  const selectUserList = createSelector(
     userModuleSelector,
-    state => state.list
+    state => state.user
 );
 
-export const selectUserListUsers = createSelector(selectUserList, s => s.users);
+export const selectUserListUsers = createSelector(selectUserList, s => s.list);
