@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { editUser } from '../../+store/user/user.action';
+import * as userAction from '../../+store/user/user.action'
 import { IUser } from '../../shared/interface/user';
 
 @Component({
@@ -38,16 +38,17 @@ export class EditDialogComponent {
         form: form
       });
 
-    //edit user with parameters from interface
-      const updatedUser: IUser = {
-        id: this.user.id,
-        isActive: this.user.isActive as boolean,
-        name: this.form.controls['name'].value as string,
-        username: this.form.controls['username'].value as string,
-        email: this.form.controls['email'].value as string,
-      }
-      //debugger;
-      this.store.dispatch(editUser({ user: updatedUser }))
+    
+      this.store.dispatch( userAction.edit(
+        {update: {
+          id:this.user.id,
+          changes:{
+            name:this.form.controls['name'].value as string,
+            isActive: this.user.isActive as boolean,
+            username: this.form.controls['username'].value as string,
+            email: this.form.controls['email'].value as string
+        }}}))
+    
     }
   }
 

@@ -7,14 +7,14 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import { loadUsers, } from '../+store/user/user.action';
-import { selectUserListUsers } from '../+store/user/user.selector';
+import * as userAction from '../+store/user/user.action';
 import { DeleteDialogComponent } from '../dialog/delete-dialog/delete-dialog.component';
 import { EditDialogComponent } from '../dialog/edit-dialog/edit-dialog.component';
 import { IUser } from '../shared/interface/user';
 import { takeUntil } from 'rxjs/operators'
 import { SelectionModel } from '@angular/cdk/collections';
 import {IAppState} from '../../+store/'
+import * as userSelector from '../+store/user/user.selector'
 
 @Component({
   selector: 'app-user-grid',
@@ -23,7 +23,13 @@ import {IAppState} from '../../+store/'
 })
 export class UserGridComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  displayedColumns: string[] = ['checkbox', 'name', 'username', 'email', 'input', 'active', 'edit', 'delete'];
+  constructor(private _liveAnnouncer: LiveAnnouncer,
+    private store: Store<IAppState>,
+    private dialog: MatDialog
+    ) {  }
+
+
+   displayedColumns: string[] = ['checkbox', 'name', 'username', 'email', 'input', 'active', 'edit', 'delete'];
   dataSource = new MatTableDataSource<IUser>();
   dataFromDialog: any;
   selection = new SelectionModel<IUser>(true, []);
@@ -32,19 +38,21 @@ export class UserGridComponent implements OnInit, AfterViewInit, OnDestroy {
   options: string[] = ['One', 'Two', 'Three'];
   killSubscribtion = new Subject();
 
-  constructor(private _liveAnnouncer: LiveAnnouncer,
-    private store: Store<IAppState>,
-    private dialog: MatDialog
-  ) { }
+ 
 
 
   ngOnInit(): void {
 
-    this.store.dispatch(loadUsers());
-    this.store.select(selectUserListUsers).pipe(takeUntil(this.killSubscribtion)).subscribe(users => {
-      this.dataSource = new MatTableDataSource<IUser>(users!);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    this.store.dispatch(userAction.load());
+    //this.store.select(selectUserListUsers).pipe(takeUntil(this.killSubscribtion)).subscribe(users => {
+      this.store.select((x)=>userSelector.selectAllUsers(x.userModule.userEntity) ).pipe(takeUntil(this.killSubscribtion)).subscribe(users => { 
+    
+    //console.log(users)
+    this.dataSource = new MatTableDataSource<IUser>(users!);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    
+    
     });
   }
 

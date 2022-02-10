@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { deleteUser } from '../../+store/user/user.action';
+import * as userEntityAction from '../../+store/user/user.entity.action';
+import * as userAction from '../../+store/user/user.action';
 
 @Component({
   selector: 'app-delete-dialog',
@@ -29,7 +30,7 @@ export class DeleteDialogComponent {
     }
   }
   onConfirmClick(): void {
-    this.store.dispatch(deleteUser({ id: this.data.id }));
+    this.store.dispatch(userAction.delete_({ id: this.data.id }));
     this.dialogRef.close(true);
   }
 

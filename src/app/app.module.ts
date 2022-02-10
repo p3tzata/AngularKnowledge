@@ -11,9 +11,10 @@ import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserRoutingModule } from './user/user-routing.module';
-import { RouterModule } from '@angular/router';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ToastrModule } from 'ngx-toastr';
+import { ToastrEffect } from './+store/toastr/toastr.effect';
+
 
 @NgModule({
   declarations: [
@@ -29,8 +30,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     
     ReactiveFormsModule,
     StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([ToastrEffect]),
     StoreDevtoolsModule.instrument({}),
+    ToastrModule.forRoot(),
     
   ],
   providers: [],

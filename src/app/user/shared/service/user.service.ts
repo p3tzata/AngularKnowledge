@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Update, UpdateNum } from '@ngrx/entity/src/models';
 import { Observable } from 'rxjs';
 import { IUser } from '../interface/user';
 
@@ -21,7 +22,7 @@ export class UserService {
     return this.httpClient.delete(this.url + id)
   };
 
-  editUser(user: IUser) {
+  editUser(user: Update<IUser>) {
     return this.httpClient.patch(this.url + user.id, undefined)
   };
 }

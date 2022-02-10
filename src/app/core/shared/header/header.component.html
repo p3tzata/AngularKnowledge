@@ -3,21 +3,19 @@
       <mat-icon>menu</mat-icon>
     </button>
     <span>INSYS</span>
-    <div class="mainButton">
-        <button mat-icon-button class="">
-      Нова Услуга
-    </button>
-        <button mat-icon-button class="example-icon">
-      Вход
-    </button>
-        <button mat-icon-button class="example-icon">
-      Друг Бутон
-    </button>
+   
+    <div fxShow="true" fxHide.lt-md="true">
+      <a mat-button routerLink="/about-us">About us</a>
+      <a mat-button routerLink="/prices">Prices</a>
+      <a mat-button routerLink="/start-page">Start page</a>
+      <a mat-button routerLink="/offer">Offer</a>
+      <a mat-button routerLink="/contact">Contact</a>
     </div>
-    <div class="logoutButton">
-        <button mat-icon-button class="logout">
-          Logout:
-        </button>
-        <span>Username</span>
+    <span class="example-spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true">
+      <a mat-button routerLink="/about-us">About us</a>
     </div>
+
+
+
 </mat-toolbar>
