@@ -4,13 +4,26 @@
             <mat-icon>face</mat-icon>Потребители
         </a>
         <a mat-list-item routerLink="/signup">
-            <mat-icon>account_circle</mat-icon>Текст
+            <mat-icon>...</mat-icon>Текст
         </a>
         <a mat-list-item routerLink="/user/events">
-            <mat-icon>event</mat-icon>Текст
+            <mat-icon>..</mat-icon>Текст
         </a>
         <button mat-list-item routerLink="/logout">
-        <mat-icon>eject</mat-icon>Текст
+        <mat-icon>...</mat-icon>Текст
       </button>
+
+      <a mat-list-item [routerLink]="['/users/learningMatTable1']">
+        <mat-icon>library_books</mat-icon>Learning - MatTable1
+      </a>
+      
+      <a mat-list-item [routerLink]="['/users/learningMatTable2']">
+        <mat-icon>library_books</mat-icon>Learning - MatTable dynamic read/write
+      </a>
+      
+      <a mat-list-item [routerLink]="['/users/learningMatTable3']">
+        <mat-icon>library_books</mat-icon>Learning - MatTable Editable
+      </a>
+      
     </div>
 </mat-nav-list>

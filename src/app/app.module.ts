@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastrEffect } from './+store/toastr/toastr.effect';
+import {global }   from './+store/reducer'
 
 
 @NgModule({
@@ -29,7 +30,7 @@ import { ToastrEffect } from './+store/toastr/toastr.effect';
     CoreModule,
     
     ReactiveFormsModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({global}, {}),
     EffectsModule.forRoot([ToastrEffect]),
     StoreDevtoolsModule.instrument({}),
     ToastrModule.forRoot(),

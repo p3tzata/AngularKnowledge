@@ -23,13 +23,11 @@ import * as userSelector from '../+store/user/user.selector'
 })
 export class UserGridComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  constructor(private _liveAnnouncer: LiveAnnouncer,
-    private store: Store<IAppState>,
-    private dialog: MatDialog
-    ) {  }
 
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-   displayedColumns: string[] = ['checkbox', 'name', 'username', 'email', 'input', 'active', 'edit', 'delete'];
+  displayedColumns: string[] = ['checkbox', 'name', 'username', 'email', 'input', 'active', 'edit', 'delete'];
   dataSource = new MatTableDataSource<IUser>();
   dataFromDialog: any;
   selection = new SelectionModel<IUser>(true, []);
@@ -38,26 +36,25 @@ export class UserGridComponent implements OnInit, AfterViewInit, OnDestroy {
   options: string[] = ['One', 'Two', 'Three'];
   killSubscribtion = new Subject();
 
- 
 
 
-  ngOnInit(): void {
+  constructor(private _liveAnnouncer: LiveAnnouncer,
+    private store: Store<IAppState>,
+    private dialog: MatDialog
+    ) {  }
 
-    this.store.dispatch(userAction.load());
-    //this.store.select(selectUserListUsers).pipe(takeUntil(this.killSubscribtion)).subscribe(users => {
-      this.store.select((x)=>userSelector.selectAllUsers(x.userModule.userEntity) ).pipe(takeUntil(this.killSubscribtion)).subscribe(users => { 
-    
-    //console.log(users)
-    this.dataSource = new MatTableDataSource<IUser>(users!);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    
-    
-    });
-  }
 
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+    ngOnInit(): void {
+
+      this.store.dispatch(userAction.load());
+      this.store.select((x)=>userSelector.selectAll(x.userModule!.userEntity) ).pipe(takeUntil(this.killSubscribtion)).subscribe(users => { 
+      this.dataSource = new MatTableDataSource<IUser>(users!);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      });
+    }
+
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -68,6 +65,7 @@ export class UserGridComponent implements OnInit, AfterViewInit, OnDestroy {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  
   announceSortChange(sortState: Sort) {
 
     if (sortState.direction) {

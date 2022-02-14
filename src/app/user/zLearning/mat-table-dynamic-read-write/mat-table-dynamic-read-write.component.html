@@ -1,0 +1,24 @@
+<mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
+
+    <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns;let i=index" >
+        <mat-header-cell *matHeaderCellDef>{{col}}</mat-header-cell>
+        
+        <mat-cell class="duration-cell" *matCellDef="let element">
+            <mat-form-field>
+                
+                <input [type]="dataSchema[col]" matInput [value]="element[col]" [(ngModel)]="element[col]"  > 
+              </mat-form-field>
+
+
+        </mat-cell>
+      
+
+        
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row *matRowDef="let row ; columns: displayedColumns" ></mat-row>
+
+</mat-table>
+

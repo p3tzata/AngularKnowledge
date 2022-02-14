@@ -6,16 +6,27 @@ import { UserService } from "../../shared/service/user.service";
 import * as userAction from "./user.action";
 import * as userEntityAction from './user.entity.action';
 import * as toastrAction from '../../../+store/toastr/toastr.action'
+import {SpinnerService} from '../../../core/shared/service/spinner.service'
 @Injectable()
 export class UserListEffects {
 
+    constructor(private actions$: Actions,
+        private userService: UserService,
+        private spinnerService: SpinnerService
+        ) { }
+
+
     load = createEffect(() => this.actions$.pipe(
         ofType(userAction.load),
-        switchMap ( (param) => this.userService.loadUsers().pipe(
+        switchMap ( (param) => { 
+            this.spinnerService.show();
+            return this.userService.loadUsers().pipe(
+            //tap()
             takeUntil(this.actions$.pipe(ofType(userAction.loadCancel))),
-            switchMap((x)=>[toastrAction.showSuccess({title: 'success title',message:"load complited"}),userEntityAction.loadEntities({entities: x}) ]  ),
-            catchError((err)=> [toastrAction.showFail({title: 'fail title',message: err.message})] ) 
-            ))
+            switchMap((x)=>{ this.spinnerService.hide(); return [toastrAction.showSuccess({title: 'success title',message:"load complited"}),userEntityAction.loadEntities({entities: x}) ] }   ),
+            catchError((err)=>{this.spinnerService.hide(); return [toastrAction.showFail({title: 'fail title',message: err.message})] } ),
+            
+            ) })
 
         )
         
@@ -43,6 +54,5 @@ export class UserListEffects {
             ))
 
     ));
-    constructor(private actions$: Actions,
-        private userService: UserService) { }
+   
 }

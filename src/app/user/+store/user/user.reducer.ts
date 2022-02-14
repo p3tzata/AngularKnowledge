@@ -37,6 +37,7 @@ export const userAdapter: EntityAdapter<IUser> = createEntityAdapter<IUser>({
 export const initialIUserEntityState: IUserEntity = userAdapter.getInitialState({
     // additional entity state properties
     selectedUserId: null,
+
   });
 
   

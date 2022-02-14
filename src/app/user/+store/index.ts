@@ -14,6 +14,7 @@ export const reducers: ActionReducerMap<IUserModuleState> = {
 
 export interface IUserEntity extends EntityState<IUser> {
     selectedUserId: string | number | null;
+    
 }
 
 

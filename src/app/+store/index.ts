@@ -1,5 +1,7 @@
 import { IUserModuleState } from "../user/+store";
 
 export interface IAppState {
-    readonly userModule: IUserModuleState;
+    readonly global: {showSpinner: boolean};
+    readonly userModule: IUserModuleState | undefined;
+    
 }
