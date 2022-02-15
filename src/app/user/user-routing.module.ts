@@ -2,7 +2,7 @@
 import { UserGridComponent } from "./user-grid/user-grid.component";
 import { MatTable1Component } from "./zLearning/mat-table1/mat-table1.component";
 import { MatTableDynamicReadWriteComponent } from "./zLearning/mat-table-dynamic-read-write/mat-table-dynamic-read-write.component";
-import { MatTable3Component } from "./zLearning/mat-table3/mat-table3.component";
+
 
 const routes: Routes = [
     {
@@ -16,10 +16,7 @@ const routes: Routes = [
         path: 'learningMatTable2',
         component: MatTableDynamicReadWriteComponent
     },
-    {
-        path: 'learningMatTable3',
-        component: MatTable3Component
-    }
+    
     
 
 

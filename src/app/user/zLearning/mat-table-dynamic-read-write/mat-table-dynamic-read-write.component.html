@@ -1,24 +1,46 @@
-<mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
+<button mat-button color="primary" (click)="updateRow()">Update Row(s)</button>
 
-    <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns;let i=index" >
+<mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+
+    <ng-container matColumnDef="checkbox">
+        
+        <mat-header-cell  *matHeaderCellDef>
+            <mat-checkbox color="warn" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" 
+            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+            </mat-checkbox></mat-header-cell>
+      
+            <mat-cell  class="duration-cell" *matCellDef="let element">
+            <mat-checkbox tabindex="-1"  color="warn" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null" 
+            [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)">
+            </mat-checkbox>
+            
+        </mat-cell>
+    </ng-container>
+
+    <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumnsLoop;let i=index" >
         <mat-header-cell *matHeaderCellDef>{{col}}</mat-header-cell>
         
-        <mat-cell class="duration-cell" *matCellDef="let element">
-            <mat-form-field>
+        <mat-cell class="duration-cell" *matCellDef="let element;let i = index">
+            <mat-form-field *ngIf="dataSchema[col]; else defaultMatCell ">
                 
-                <input [type]="dataSchema[col]" matInput [value]="element[col]" [(ngModel)]="element[col]"  > 
-              </mat-form-field>
+                <input appTabIndexMove={{i+1+tabIndexSchema[col]}}
+                appMaxTabIndexOffsetMove="{{maxTabIndexOffset}}"
+                [type]="dataSchema[col]" matInput [value]="element[col]" 
+                (keyup)="doSelect($event,element); setInline(element.id,element,col, $any($event.target).value)"  > 
+            </mat-form-field>
+            
+            <ng-template #defaultMatCell>
+               <span>{{element[col]}}</span>
+            </ng-template>
 
 
         </mat-cell>
-      
-
-        
+         
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-    <mat-row *matRowDef="let row ; columns: displayedColumns" ></mat-row>
+    <mat-row [ngClass]="{'highlight': selection.isSelected(row)}"  *matRowDef="let row ; columns: displayedColumns" ></mat-row>
 
 </mat-table>
 

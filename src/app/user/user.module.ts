@@ -12,7 +12,8 @@ import { DeleteDialogComponent } from './dialog/delete-dialog/delete-dialog.comp
 import { EditDialogComponent } from './dialog/edit-dialog/edit-dialog.component';
 import { MatTable1Component } from './zLearning/mat-table1/mat-table1.component';
 import { MatTableDynamicReadWriteComponent } from './zLearning/mat-table-dynamic-read-write/mat-table-dynamic-read-write.component';
-import { MatTable3Component } from './zLearning/mat-table3/mat-table3.component';
+import {DirectiveModule} from '../directive/directive.module'
+
 
 
 
@@ -23,9 +24,9 @@ import { MatTable3Component } from './zLearning/mat-table3/mat-table3.component'
     EditDialogComponent,
     MatTable1Component,
     MatTableDynamicReadWriteComponent,
-    MatTable3Component,
   ],
   imports: [
+    DirectiveModule,
     CommonModule,
     UserRoutingModule,
     MaterialModule,

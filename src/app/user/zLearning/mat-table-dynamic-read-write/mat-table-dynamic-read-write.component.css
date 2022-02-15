@@ -1,0 +1,10 @@
+.mat-column-checkbox {
+    flex: 0 0 3%;
+}
+.mat-column-id {
+    flex: 0 0 5%;
+}
+
+.highlight{
+    background: #a1b4a2; /* green */
+  }
