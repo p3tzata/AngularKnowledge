@@ -29,7 +29,12 @@ export class ToastrEffect {
         
     })),{ dispatch: false });
 
-
+    showWaringEffect = createEffect(()=>this.action$.pipe(ofType(toastrAction.showWarning),
+    map( (action) => {
+        
+        this.toastrSrv.warning(action.message,action.title);
+        
+    })),{ dispatch: false });
 
    
 

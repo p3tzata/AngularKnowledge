@@ -4,15 +4,20 @@ import {
   ElementRef,
   HostListener,
   OnInit,
+  OnDestroy,
 } from '@angular/core';
-import { TabIndexMoveService } from '../core/shared/service/tab-index-move.service';
+import { TabIndexMoveService } from '../service/tab-index-move.service';
+import * as tabIndexConstant from '../constant/tabIndexConstant'
+import { Subscription } from 'rxjs';
+
 type IKNOWISNUMBER = any;
 type IKNOWISSTRING = any;
 @Directive({
   selector: '[appTabIndexMove]'
 })
-export class TabIndexMoveDirective {
-  private offSet=100000;
+export class TabIndexMoveDirective implements OnDestroy {
+  //private offSet=100000;
+  private unsubscribe!:Subscription;
   private _index!: number;
   private _maxTabIndexOffset!:number;
   get index(): IKNOWISNUMBER {
@@ -40,11 +45,7 @@ export class TabIndexMoveDirective {
     if (pos == valueLength) {
       posOnEnd = 1;
     }
-
-    //39 left
-    //console.log(this.el.nativeElement.selectionStart);
-    //console.log(pos, value);
-    //console.log(e.which);
+    
     if (e.which === 113 || e.which === 27) {
       let valueLength = this.el.nativeElement.value.length
       this.el.nativeElement.blur();
@@ -65,7 +66,7 @@ export class TabIndexMoveDirective {
         this.tabService.selectedInput.next((this.index%100000) + 1);
         
       } else { 
-        this.tabService.selectedInput.next(this.index + this.offSet);
+        this.tabService.selectedInput.next(this.index + tabIndexConstant.TAB_INDEX_OFFSET);
         
       }
       e.preventDefault();
@@ -73,11 +74,11 @@ export class TabIndexMoveDirective {
     }
     //Left
     if (e.which === 37 && posOnStart == 1) {
-      console.log(e.which);
+      //console.log(e.which);
       if(this.index<100000) {
         this.tabService.selectedInput.next(this._maxTabIndexOffset + (this.index -1))
       } else {
-        this.tabService.selectedInput.next(this.index - this.offSet);
+        this.tabService.selectedInput.next(this.index - tabIndexConstant.TAB_INDEX_OFFSET);
       }
       
       
@@ -95,15 +96,20 @@ export class TabIndexMoveDirective {
   constructor(private el: ElementRef, private tabService: TabIndexMoveService) {
    
   }
+ 
 
   ngOnInit() {
-    this.tabService.selectedInput.subscribe((i) => {
+    this.unsubscribe=this.tabService.selectedInput.subscribe((i) => {
       //console.log(i, this.index);
       if (i === this.index) {
         this.el.nativeElement.focus();
         this.el.nativeElement.select()
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.unsubscribe()
   }
 
 }

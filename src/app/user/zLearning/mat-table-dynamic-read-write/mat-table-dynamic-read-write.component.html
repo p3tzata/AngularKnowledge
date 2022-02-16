@@ -1,10 +1,15 @@
-<button mat-button color="primary" (click)="updateRow()">Update Row(s)</button>
 
-<mat-table class="mat-elevation-z8" [dataSource]="dataSource">
+<div class="spinner-container" *ngIf="(spinner$ | async)">
+    <mat-spinner  mode="indeterminate"></mat-spinner>
+</div>
+
+<button mat-button color="primary" (click)="confirmInlineEditDialog()">Update inline (F10)</button>
+
+<mat-table class="mat-elevation-z8" [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
 
     <ng-container matColumnDef="checkbox">
         
-        <mat-header-cell  *matHeaderCellDef>
+        <mat-header-cell  *matHeaderCellDef >
             <mat-checkbox color="warn" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" 
             [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
             </mat-checkbox></mat-header-cell>
@@ -18,7 +23,7 @@
     </ng-container>
 
     <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumnsLoop;let i=index" >
-        <mat-header-cell *matHeaderCellDef>{{col}}</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by this column">{{col}}</mat-header-cell>
         
         <mat-cell class="duration-cell" *matCellDef="let element;let i = index">
             <mat-form-field *ngIf="dataSchema[col]; else defaultMatCell ">
@@ -41,6 +46,9 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
     <mat-row [ngClass]="{'highlight': selection.isSelected(row)}"  *matRowDef="let row ; columns: displayedColumns" ></mat-row>
-
+    
+    
 </mat-table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page">
+</mat-paginator>
 

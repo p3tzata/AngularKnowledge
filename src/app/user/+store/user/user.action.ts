@@ -46,12 +46,11 @@ export const deleteCancel = createAction(
 
 export const edit = createAction(
     `${namescapce} edit`,
-    props<{update: Update<IUser>}>()
+    props<{update: IUser}>()
 );
 
 export const editCancel = createAction(
-    `${namescapce} editCancel`,
-  
+    `${namescapce} editCancel`,  
 );
 
 export const editSuccess = createAction(
@@ -64,4 +63,21 @@ export const editFailure = createAction(
     props<{ error: any}>()
 );
 
+export const editInline = createAction(
+    `${namescapce} edit inline`,
+    props<{update: IUser[]}>()
+);
 
+export const editInlineSuccess = createAction(
+    `${namescapce} edit inline success`,
+    props<{update: IUser[]}>()
+);
+
+export const editInlineFail = createAction(
+    `${namescapce} edit inline Failure`,
+    props<{ error: any}>()
+);
+
+export const editInlineCancel = createAction(
+    `${namescapce} edit inline cancel`
+);

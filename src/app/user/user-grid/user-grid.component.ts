@@ -126,7 +126,7 @@ export class UserGridComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     );
-
+    
     dialogRef.afterClosed().subscribe((data) => {
       this.dataFromDialog = data.form;
       if (data.clicked === 'submit') {

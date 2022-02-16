@@ -49,10 +49,28 @@ export class UserListEffects {
         switchMap ( (param) => this.userService.editUser(param.update).pipe(
             takeUntil(this.actions$.pipe(ofType(userAction.editCancel))),
             switchMap((x)=>[toastrAction.showSuccess({title: 'Edit',message:"Item is edited!!!"}),
-                            userEntityAction.updateEntity({update: param.update})]  ),
+                            userEntityAction.updateEntity({update: {id: param.update.id, changes: param.update }})]  ),
             catchError((err)=> [toastrAction.showFail({title: 'Fail Edit',message: err.message})] ) 
             ))
 
     ));
+
+    
+    editEntitiesInline = createEffect( ()=> this.actions$.pipe(
+        ofType(userAction.editInline),
+        switchMap( (param) =>{
+                this.spinnerService.show();
+                return this.userService.editInline(param.update).pipe(
+                takeUntil(this.actions$.pipe(ofType(userAction.editInlineCancel))),
+                switchMap( (x)=> {this.spinnerService.hide();
+                                  return [toastrAction.showSuccess({title: "Edit Inline",message:"Itmes are edited!!!!"}),
+                                         userEntityAction.updateEntities({updates: x.map( (x)=>{return {id:x.id,changes:x} } ) })
+                                         ]}),
+                catchError((err)=>{this.spinnerService.hide();
+                    return [toastrAction.showFail({title: 'Fail Edit',message: err.message})] }) 
+                  ) })
+
+    ));        
+
    
 }

@@ -1,16 +1,23 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Store } from '@ngrx/store';
+import {  Store } from '@ngrx/store';
 import { IAppState } from '../../../+store';
 import * as globalSelector from '../../../+store/selector'
 import { IUser } from '../../shared/interface/user';
 import * as userSelector from '../../+store/user/user.selector'
 import * as userAction from '../../+store/user/user.action';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Actions, ofType } from '@ngrx/effects';
+import * as toastrAction from '../../../+store/toastr/toastr.action'
+import * as util from '../../../core/shared/util/util'
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogModel, ConfirmDialogComponent } from '../../../core/shared/dialog/confirm-dialog/confirm-dialog.component';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+
 
 @Component({
   selector: 'app-mat-table-dynamic-read-write',
@@ -18,15 +25,15 @@ import { SelectionModel } from '@angular/cdk/collections';
   styleUrls: ['./mat-table-dynamic-read-write.component.css']
 })
 export class MatTableDynamicReadWriteComponent implements OnInit {
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   selection = new SelectionModel<IUser>(true, []);
   tabIndex=1;
-  maxTabIndexOffset=200000;
+  maxTabIndexOffset!:number;
   dataSource!: MatTableDataSource<IUser>;
-  dataSchema:{[key:string]: string};
-  tabIndexSchema:{[key:string]: number};
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSchema!:{[key:string]: string};
+  tabIndexSchema!:{[key:string]: number};
   spinner$!:Observable<boolean>;
   killSubscribtion = new Subject();
   displayedColumnsLoop = ["id","username","name", "email"];
@@ -39,57 +46,96 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
     "email": "text",
   }
   
-  TABINDEX_SCHEMA = {
-    "username": 0,
-    "name":  100000,
-    "email": 200000,
+  inlineEdited:{[key:number] : IUser }={};
+
+
+  constructor(private store: Store<IAppState>, 
+              private actions$:Actions,
+              private dialog: MatDialog,
+              private _liveAnnouncer: LiveAnnouncer) { 
+    
+      
   }
 
-
-  inlineEdited:{[key:number] : Partial<IUser> }={};
-
-
-  constructor(private store: Store<IAppState>) { 
-    
-    this.dataSchema=this.TABLE_SCHEMA;
-    this.tabIndexSchema=this.TABINDEX_SCHEMA;
-
-  }
-
-  ngOnInit(): void {
-    
+    ngOnInit(): void {
+      this.dataSchema=this.TABLE_SCHEMA;
+      [this.tabIndexSchema,this.maxTabIndexOffset]=util.generateTabIndexSchema(this.dataSchema);
+      
     this.spinner$=this.store.select((x)=>{ return globalSelector.spinnerSelector(x)});
-    let dataSourceInner:MatTableDataSource<IUser>;
+   
     this.store.dispatch(userAction.load());
     this.store.select((x)=>userSelector.selectAll(x.userModule!.userEntity) ).pipe(takeUntil(this.killSubscribtion)).subscribe(users => { 
-      const usersColne = [...users]
-    this.dataSource = new MatTableDataSource<IUser>(Array.from(users));
-    //this.dataSource = new MatTableDataSource<IUser>([{id:1,email:"tttt",username:"tttt",isActive:false,name:"sss"}]);
-
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    
+      this.dataSource = new MatTableDataSource<IUser>(Array.from(users));
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
-    
+
+    this.actions$.pipe(takeUntil(this.killSubscribtion), ofType(toastrAction.showSuccess)).subscribe( (_) => {
+      this.selection.clear();
+      this.inlineEdited={};
+    });
 
 
   }
+
+
+
+//InlineEdit_
+@HostListener('keydown', ['$event'])
+onInput(e: any) {
+  if (e.which==121) {
+    this.confirmInlineEditDialog();
+    e.preventDefault();
+  }
+}
 
   setInline(id:number, defaultRowValue:IUser, targetProp:any ,targetValue: any) {
     if (!this.inlineEdited[id]) {
       this.inlineEdited[id]=defaultRowValue;
-      //this.inlineEdited[id]={id};
     }
     this.inlineEdited[id] = {...this.inlineEdited[id],[targetProp]:targetValue }
 
-    //console.log(id,{[col]:event});
-
-   // console.log(this.inlineEdited);
-  //  console.log(this.inlineEdited[id])
-
-
   }
 
+  updateRow(){
+ 
+    let users = this.selection.selected.map((x) => this.inlineEdited[x.id] ).filter((x)=> x!=undefined)
+    
+    if (users.length>0) {
+    
+      this.store.dispatch(userAction.editInline({update: users}))
+
+    } else {
+
+      this.store.dispatch(toastrAction.showWarning({title:'Warning',message:'You did not edit any row(s)' }));
+      
+    }
+    
+  }
+
+  
+  confirmInlineEditDialog(): void {
+    const message = `Are you sure you want to update row(s)?`;
+
+    const dialogData = new ConfirmDialogModel("Confirm Update", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().pipe(takeUntil(this.killSubscribtion)).subscribe(dialogResult => {
+      if (dialogResult) {
+        this.updateRow()
+      }
+      
+    });
+  }
+
+
+//InlineEdit_ - end
+
+//SelectCheckbox_
   masterToggle() {
     if (this.isAllSelected()) {
       this.selection.clear();
@@ -117,6 +163,7 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
     
     if ($event instanceof KeyboardEvent) {
       if ($event.key!="Tab" 
+          && $event.key!="End"
           && $event.key!="Escape"
           && $event.key!="F2"
           && $event.key!="Enter"
@@ -129,22 +176,25 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
     }
      
   }
+//SelectCheckbox_ - end
+//Sort_
+  announceSortChange(sortState: Sort) {
 
-  getTabIndex():number {
-    console.log('tabindex')
-    return this.tabIndex++;
-  }
-
-  updateRow(){
-    for (let item of this.selection.selected) {
-      let id=item.id
-      if(this.inlineEdited[id]) {
-        console.log(this.inlineEdited[id]);
-      }
-      
-      
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction} ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+
+  //Sort_ - end
+
+ 
+
+
+
+
+
 
 
 }

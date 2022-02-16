@@ -41,13 +41,14 @@ export class EditDialogComponent {
     
       this.store.dispatch( userAction.edit(
         {update: {
-          id:this.user.id,
-          changes:{
+            id:this.user.id,
             name:this.form.controls['name'].value as string,
             isActive: this.user.isActive as boolean,
             username: this.form.controls['username'].value as string,
             email: this.form.controls['email'].value as string
-        }}}))
+        }}
+        
+        ))
     
     }
   }

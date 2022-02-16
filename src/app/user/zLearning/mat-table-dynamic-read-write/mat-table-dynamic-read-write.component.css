@@ -7,4 +7,15 @@
 
 .highlight{
     background: #a1b4a2; /* green */
-  }
+}
+
+
+
+.spinner-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}

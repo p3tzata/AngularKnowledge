@@ -5,6 +5,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { AsideComponent } from './shared/aside/aside.component';
 import { MaterialModule } from '../material.module';
 import { RouterModule } from '@angular/router';
+import { ConfirmDialogComponent } from './shared/dialog/confirm-dialog/confirm-dialog.component';
 
 
 
@@ -12,7 +13,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     HeaderComponent,
     FooterComponent,
-    AsideComponent
+    AsideComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,
