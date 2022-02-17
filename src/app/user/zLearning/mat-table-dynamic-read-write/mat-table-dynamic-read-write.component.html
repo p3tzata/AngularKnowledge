@@ -10,16 +10,21 @@
     <ng-container matColumnDef="checkbox">
         
         <mat-header-cell  *matHeaderCellDef >
+        
             <mat-checkbox color="warn" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" 
-            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-            </mat-checkbox></mat-header-cell>
+                [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+        
+        </mat-header-cell>
       
-            <mat-cell  class="duration-cell" *matCellDef="let element">
+        <mat-cell  class="duration-cell" *matCellDef="let element">
+            
             <mat-checkbox tabindex="-1"  color="warn" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null" 
-            [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)">
+                [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)">
             </mat-checkbox>
             
         </mat-cell>
+
     </ng-container>
 
     <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumnsLoop;let i=index" >
@@ -42,6 +47,59 @@
         </mat-cell>
          
     </ng-container>
+
+    <ng-container matColumnDef="editSingleRow">
+        
+        <mat-header-cell  *matHeaderCellDef >
+        
+            Edit
+        
+        </mat-header-cell>
+              
+
+        <mat-cell  class="duration-cell" *matCellDef="let element">
+            
+            
+
+           
+                <button mat-button (click)="tryOpenEditSingleRowDialog(element.id)">
+                  <mat-icon>edit</mat-icon>
+                  
+                </button>
+            
+            
+        </mat-cell>
+        
+    </ng-container>
+
+
+    <ng-container matColumnDef="popUpMenu">
+        
+        <mat-header-cell  *matHeaderCellDef >
+        
+            Menu
+        
+        </mat-header-cell>
+              
+
+        <mat-cell  class="duration-cell" *matCellDef="let element">
+            
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="confirmDeleteSingleRowDialog(element.id,element.name)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+            </mat-menu>
+            
+        </mat-cell>
+        
+    </ng-container>
+
+
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 

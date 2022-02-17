@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Update, UpdateNum } from '@ngrx/entity/src/models';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import {delay} from 'rxjs/operators'
 import { IUser } from '../interface/user';
 
@@ -19,14 +19,21 @@ export class UserService {
     return this.httpClient.get<IUser[]>(this.url).pipe(delay(1000))
   };
 
+  
+
+  getSingle(id: number):Observable<IUser> {
+    return this.httpClient.get<IUser>(`${this.url}\\${id}`).pipe(delay(1000))
+  };
+
+
   deleteUser(id: number) {
-    return this.httpClient.delete(this.url + id)
+    return this.httpClient.delete(this.url + id).pipe(delay(1000))
   };
 
   editUser(user: IUser) {
     //Fake call to API
-    //return this.httpClient.patch(this.url + user.id, undefined)
-    return of (user)
+    //Simulate error return this.httpClient.get<IUser>(`${this.url}\\sdfsdfsd`).pipe(delay(1000))
+    return of(user).pipe(delay(1000)) ;  
   };
 
 

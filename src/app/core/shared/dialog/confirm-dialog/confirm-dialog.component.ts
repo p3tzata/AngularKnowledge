@@ -1,5 +1,6 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {ColorThemeEnum} from '../../constant/globalEnum'
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -9,11 +10,15 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ConfirmDialogComponent implements OnInit {
   title!: string;
   message!: string;
+  onConfirmBurronName!: string;
+  onConfirmButtonColorThemeEnum!: ColorThemeEnum;
 
   constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogModel) {
       this.title = data.title;
       this.message = data.message;
+      this.onConfirmBurronName=data.onConfirmButtonName;
+      this.onConfirmButtonColorThemeEnum=data.onConfirmButtonColorThemeEnum;
      }
 
   ngOnInit(): void {
@@ -42,7 +47,10 @@ export class ConfirmDialogComponent implements OnInit {
 
 export class ConfirmDialogModel {
 
-  constructor(public title: string, public message: string) {
+  constructor(public title: string, 
+    public message: string, 
+    public onConfirmButtonName: string, 
+    public onConfirmButtonColorThemeEnum:ColorThemeEnum ) {
 
   }
 }

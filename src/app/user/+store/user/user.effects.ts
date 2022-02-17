@@ -23,7 +23,7 @@ export class UserListEffects {
             return this.userService.loadUsers().pipe(
             //tap()
             takeUntil(this.actions$.pipe(ofType(userAction.loadCancel))),
-            switchMap((x)=>{ this.spinnerService.hide(); return [toastrAction.showSuccess({title: 'success title',message:"load complited"}),userEntityAction.loadEntities({entities: x}) ] }   ),
+            switchMap((x)=>{ this.spinnerService.hide(); return [userEntityAction.loadEntities({entities: x}) ] }   ),
             catchError((err)=>{this.spinnerService.hide(); return [toastrAction.showFail({title: 'fail title',message: err.message})] } ),
             
             ) })
@@ -34,24 +34,35 @@ export class UserListEffects {
    
     delete = createEffect(() => this.actions$.pipe(
         ofType(userAction.delete_),
-        switchMap ( (param) => this.userService.deleteUser(param.id).pipe(
+        switchMap ( (param) => 
+            {this.spinnerService.show();
+            return this.userService.deleteUser(param.id).pipe(
             takeUntil(this.actions$.pipe(ofType(userAction.deleteCancel))),
-            switchMap((x)=>[toastrAction.showSuccess({title: 'Delete',message:"Item is deleted!!!"}),
-                            userEntityAction.deleteEntity({ id: param.id })]  ),
-            catchError((err)=> [toastrAction.showFail({title: 'Fail Deleted',message: err.message})] ) 
-            ))
+            switchMap((x)=>{this.spinnerService.hide();
+                            return [toastrAction.showSuccess({title: 'Delete',message:"Item is deleted!!!"}),
+                                    userEntityAction.deleteEntity({ id: param.id })] } ),
+            catchError((err)=> {this.spinnerService.hide();
+                                return [toastrAction.showFail({title: 'Fail Deleted',message: err.message})] } ) 
+            ) })
         
         
     ));
 
     edit = createEffect(() => this.actions$.pipe(
         ofType(userAction.edit),
-        switchMap ( (param) => this.userService.editUser(param.update).pipe(
-            takeUntil(this.actions$.pipe(ofType(userAction.editCancel))),
-            switchMap((x)=>[toastrAction.showSuccess({title: 'Edit',message:"Item is edited!!!"}),
-                            userEntityAction.updateEntity({update: {id: param.update.id, changes: param.update }})]  ),
-            catchError((err)=> [toastrAction.showFail({title: 'Fail Edit',message: err.message})] ) 
-            ))
+        switchMap ( (param) => {
+            this.spinnerService.show();
+            return this.userService.editUser(param.update).pipe(
+            takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
+            switchMap((x)=>{
+                            this.spinnerService.hide();
+                            return [userAction.closeEditSingleRowDialogSignal(),
+                            toastrAction.showSuccess({title: 'Edit',message:"Item is edited!"}),
+                            userEntityAction.updateEntity({update: {id: param.update.id, changes: param.update }})] }  ),
+            catchError((err)=> {
+                            this.spinnerService.hide();
+                            return [toastrAction.showFail({title: 'Fail Edit',message: err.message})] } ) 
+            ) }  )
 
     ));
 
@@ -71,6 +82,22 @@ export class UserListEffects {
                   ) })
 
     ));        
+
+
+
+ tryOpenEditSingleRowDialogSignal = createEffect( ()=> this.actions$.pipe(
+    ofType(userAction.tryOpenEditSingleRowDialogSignal),
+    switchMap( (param) =>{
+        this.spinnerService.show();
+        return this.userService.getSingle(param.id).pipe(
+        takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
+        switchMap( (x)=> {this.spinnerService.hide();
+                          return [userAction.openEditSingleRowDialogSignal({data: x})
+                                 ]}),
+        catchError((err)=>{this.spinnerService.hide();
+            return [toastrAction.showFail({title: 'Fail Edit',message: err.message})] }) 
+          ) })
+ ))
 
    
 }

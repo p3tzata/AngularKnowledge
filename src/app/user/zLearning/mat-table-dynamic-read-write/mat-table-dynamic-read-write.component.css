@@ -4,7 +4,12 @@
 .mat-column-id {
     flex: 0 0 5%;
 }
-
+.mat-column-editSingleRow {
+    flex: 0 0 10%;
+}
+.mat-column-menu {
+    flex: 0 0 10%;
+}
 .highlight{
     background: #a1b4a2; /* green */
 }
@@ -12,7 +17,8 @@
 
 
 .spinner-container {
-    position: absolute;
+   
+    position: absolute ;
     top: 50%;
     left: 50%;
     -moz-transform: translateX(-50%) translateY(-50%);

@@ -14,10 +14,11 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Actions, ofType } from '@ngrx/effects';
 import * as toastrAction from '../../../+store/toastr/toastr.action'
 import * as util from '../../../core/shared/util/util'
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogModel, ConfirmDialogComponent } from '../../../core/shared/dialog/confirm-dialog/confirm-dialog.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-
+import {ColorThemeEnum} from '../../../core/shared/constant/globalEnum'
+import { EditDialogComponent } from '../../dialog/edit-dialog/edit-dialog.component';
 
 @Component({
   selector: 'app-mat-table-dynamic-read-write',
@@ -36,9 +37,11 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
   tabIndexSchema!:{[key:string]: number};
   spinner$!:Observable<boolean>;
   killSubscribtion = new Subject();
-  displayedColumnsLoop = ["id","username","name", "email"];
-  displayedColumns = ["checkbox","id","username","name", "email"];
-  
+  displayedColumnsLoop!:Array<string> // = ["id","username","name", "email"];
+  displayedColumns!:Array<string>// = ["checkbox","id","username","name", "email"];
+  dataFromDialog: any;
+  //displayedColumns = ["checkbox",this.displayedColumnsLoop];
+  dialogRef!:MatDialogRef<any,any>;
   TABLE_SCHEMA = {
     //"id": "number",
     "username": "text",
@@ -53,7 +56,10 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
               private actions$:Actions,
               private dialog: MatDialog,
               private _liveAnnouncer: LiveAnnouncer) { 
+    this.displayedColumnsLoop = ["id","username","name", "email"];
+    let allColumns: string[][] = [['checkbox'],this.displayedColumnsLoop,['editSingleRow','popUpMenu']  ] 
     
+    this.displayedColumns=allColumns.flat();
       
   }
 
@@ -75,6 +81,18 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
       this.inlineEdited={};
     });
 
+
+    this.actions$.pipe(takeUntil(this.killSubscribtion), ofType(userAction.openEditSingleRowDialogSignal)
+      
+    ).subscribe( (x) =>
+      this.openEditSingleRowDialog( x.data)
+    )
+
+    this.actions$.pipe(takeUntil(this.killSubscribtion), ofType(userAction.closeEditSingleRowDialogSignal)
+      
+    ).subscribe( (x) =>
+      this.dialogRef.close()
+    )
 
   }
 
@@ -117,14 +135,14 @@ onInput(e: any) {
   confirmInlineEditDialog(): void {
     const message = `Are you sure you want to update row(s)?`;
 
-    const dialogData = new ConfirmDialogModel("Confirm Update", message);
+    const dialogData = new ConfirmDialogModel("Confirm Update", message, "Update",ColorThemeEnum.primary);
 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    this.dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
       data: dialogData
     });
 
-    dialogRef.afterClosed().pipe(takeUntil(this.killSubscribtion)).subscribe(dialogResult => {
+    this.dialogRef.afterClosed().pipe(takeUntil(this.killSubscribtion)).subscribe(dialogResult => {
       if (dialogResult) {
         this.updateRow()
       }
@@ -134,6 +152,64 @@ onInput(e: any) {
 
 
 //InlineEdit_ - end
+
+//DeleteSingleRow
+confirmDeleteSingleRowDialog(id: number, label: string): void {
+  const message = `Are you sure you want to delete '${label}' ?`;
+
+  const dialogData = new ConfirmDialogModel("Confirm Delete", message, "Delete",ColorThemeEnum.warn);
+
+   this.dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    maxWidth: "400px",
+    data: dialogData
+  });
+
+  this.dialogRef.afterClosed().pipe(takeUntil(this.killSubscribtion)).subscribe(dialogResult => {
+    if (dialogResult) {
+      this.deleteSingleRow(id);
+    }
+    
+  });
+}
+
+deleteSingleRow(id: number) {
+  this.store.dispatch(userAction.delete_({ id: id }));
+}
+
+//DeleteSingleRow - end
+
+//EditSingle row
+
+tryOpenEditSingleRowDialog(id: number) {
+  this.store.dispatch(userAction.tryOpenEditSingleRowDialogSignal({id}));
+}
+
+
+openEditSingleRowDialog(user: IUser): void {
+   this.dialogRef = this.dialog.open(EditDialogComponent,
+    {
+      data: {
+        width: '550px',
+        height: '550px',
+        user: user,
+      }
+    }
+  );
+  /*
+  this.dialogRef.afterClosed().subscribe((data) => {
+    this.dataFromDialog = data.form;
+    if (data.clicked === 'submit') {
+      console.log('Sumbit button clicked')
+    }
+  });
+*/
+
+};
+
+//EditSingle row -end
+
+
+
 
 //SelectCheckbox_
   masterToggle() {
@@ -162,7 +238,8 @@ onInput(e: any) {
     //console.log($event)
     
     if ($event instanceof KeyboardEvent) {
-      if ($event.key!="Tab" 
+      if ($event.key!="Tab"
+          && $event.key!="Home" 
           && $event.key!="End"
           && $event.key!="Escape"
           && $event.key!="F2"

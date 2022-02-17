@@ -19,6 +19,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import {MatInput} from '@angular/material/input'
+import {MatMenuModule} from '@angular/material/menu'
 
 @NgModule ({
   imports: [
@@ -30,7 +31,8 @@ import {MatInput} from '@angular/material/input'
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatMenuModule
   ],
   exports: [
     MatButtonModule,
@@ -51,7 +53,8 @@ import {MatInput} from '@angular/material/input'
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule {

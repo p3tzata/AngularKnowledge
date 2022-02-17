@@ -1,47 +1,7 @@
-1. shared user interface -> src/user/share/user.model
-https://angular.io/guide/styleguide#overall-structural-guidelines
+ auto complete който да се изпълнява след 2 секунди, date picker, checkbox. 
+ tabulation
 
-
-2a. https://stackoverflow.com/questions/57770423/how-to-use-the-mattabledatasource-with-an-observable
-2b. https://material.angular.io/components/table/overview
-
-
-
-3. load user array and every things in redux
-load from api array => store => select from store and into mat table.
-
-
-4. Researches
-- best practices - ng toast - in effects
-- ngrx entity - вместо манипулация с твърди връзки.
-
-
-
-ERRORS in effects:
-https://www.thisdot.co/blog/working-with-ngrx-effects
-loadPhotos$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadPhotos),
-      switchMap(() => this.photoService.getPhotos().pipe(
-        map(photos => loadPhotosSuccess({photos})),
-        catchError(() => of(loadPhotosError()))
-      ))
-    )
-  );
-
-
-При aside не се скрива и да се маха кръкчето около бутона за aside.
-
-
-
-
- Сортирането да работи.
- Paginator да работи.
- При натискане на бутон active да се обработи с Patch заявка към базата, да се обработи локално без да се зарежда отново целия списък с потребители.
- При едит, модален прозорец при който има форма за промяна с вход текст , auto complete който да се изпълнява след 2 секунди, date picker, checkbox. 
- Колона с input text  при запис да се направи син цвят на колоната
- Delete с модален прозорец
- Checkbox при който след маркиране да се оцвети реда на който е натиснат.
- Спиннър с ефект който да се върти докато се заредят потребителите.
-
- https://blog.angular-university.io/ngrx-entity/
+ 
+fix: 
+ For Delete:  delete-dialog
+ edit form
