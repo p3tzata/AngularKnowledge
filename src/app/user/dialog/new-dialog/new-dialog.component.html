@@ -4,26 +4,26 @@
     </div>
 
     <h2 mat-dialog-title>
-        Edit user
+        New user
     </h2>
     
     <mat-dialog-content>
         <form [formGroup]="form">
-            <mat-form-field appearance="standard" hintLabel="Name is required and must be at least 3 charachter">
+            <mat-form-field appearance="standard" hintLabel="Name is required and must be at least 2 charachter">
                 <mat-label>Name</mat-label>
                 <input matInput formControlName="name">
                 <mat-error *ngIf="fc.name.hasError('minlength') && !fc.name.hasError('required')">
                     Please enter more then {{fc.name.errors?.minlength.requiredLength}} charachter
-                  </mat-error>
-                  <mat-error *ngIf="fc.name.hasError('required')">
-                    Name is <strong>required</strong>
-                  </mat-error>
+                </mat-error>
+                <mat-error *ngIf="fc.name.hasError('required')">
+                    This is <strong>required</strong>
+                </mat-error>
                
             </mat-form-field>
 
             <mat-form-field appearance="standard" hintLabel="Username is required and must be at least 3 charachter.">
                 <mat-label>Username</mat-label>
-                <input matInput formControlName="username">
+                <input   matInput formControlName="username">
                 <mat-error *ngIf="fc.username.hasError('minlength') && !fc.username.hasError('required')">
                     Please enter more then {{fc.username.errors?.minlength.requiredLength}} charachter
                 </mat-error>
@@ -34,7 +34,7 @@
 
             <mat-form-field appearance="standard" hintLabel="Email is required and must be at least 3 charachter.">
                 <mat-label>Email</mat-label>
-                <input matInput formControlName="email">
+                <input  matInput formControlName="email">
                 <mat-error *ngIf="fc.email.hasError('email') && !fc.email.hasError('required')">
                     Please enter valid email
                 </mat-error>

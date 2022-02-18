@@ -3,6 +3,7 @@
     <mat-spinner  mode="indeterminate"></mat-spinner>
 </div>
 
+<button mat-button color="primary" (click)="tryOpenNewRowDialog()">New</button>
 <button mat-button color="primary" (click)="confirmInlineEditDialog()">Update inline (F10)</button>
 
 <mat-table class="mat-elevation-z8" [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">

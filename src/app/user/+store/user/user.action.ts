@@ -23,11 +23,6 @@ export const loadFailure = createAction(
     props<{ error: Error }>()
 );
 
-export const loadCancel = createAction(
-    `${namescapce} loadCancel`
-);
-
-
 export const getSingle = createAction(
     `${namescapce} getSingle`,
     props<{ id: number }>()
@@ -42,12 +37,6 @@ export const getSingleFailure = createAction(
     `${namescapce} getSingleFailure`,
     props<{ error: Error }>()
 );
-
-export const getSingleCancel = createAction(
-    `${namescapce} getSingleCancel`
-);
-
-
 
 
 export const delete_ = createAction(
@@ -65,18 +54,12 @@ export const deleteFailure = createAction(
     props<{ error: any}>()
 );
 
-export const deleteCancel = createAction(
-    `${namescapce} deleteCancel`
-);
 
 export const edit = createAction(
     `${namescapce} edit`,
     props<{update: IUser}>()
 );
 
-export const editCancel = createAction(
-    `${namescapce} editCancel`,  
-);
 
 export const editSuccess = createAction(
     `${namescapce} editSuccess`,
@@ -87,6 +70,29 @@ export const editFailure = createAction(
     `${namescapce} editFailure`,
     props<{ error: any}>()
 );
+
+
+
+export const new_ = createAction(
+    `${namescapce} new_`,
+    props<{insert: IUser}>()
+);
+
+
+export const newSuccess = createAction(
+    `${namescapce} newSuccess`,
+    props<{ insert: IUser }>()
+);
+
+export const eewFailure = createAction(
+    `${namescapce} newFailure`,
+    props<{ error: any}>()
+);
+
+
+
+
+
 
 export const editInline = createAction(
     `${namescapce} edit inline`,
@@ -103,22 +109,6 @@ export const editInlineFail = createAction(
     props<{ error: any}>()
 );
 
-export const editInlineCancel = createAction(
-    `${namescapce} edit inline cancel`
-);
 
 
 
-export const tryOpenEditSingleRowDialogSignal = createAction(
-    `${namescapce} tryOpenEditSingleRowDialogSignal`,
-    props<{ id: number}>()
-);
-
-export const openEditSingleRowDialogSignal = createAction(
-    `${namescapce} openEditSingleRowDialogSignal`,
-    props<{ data: IUser}>()
-);
-
-export const closeEditSingleRowDialogSignal = createAction(
-    `${namescapce} closeEditSingleRowDialogSignal`    
-);

@@ -4,10 +4,13 @@
     </mat-sidenav>
     <mat-sidenav-content>
         <app-header (onToggleSidenav)=" sidenav.toggle() "></app-header>
-        <main>
+        <div id="maincontent">        
+        <main >
             <router-outlet>
             </router-outlet>
         </main>
-        <app-footer></app-footer>
+        </div>
+        <app-footer id="footer" class="mat-accent"></app-footer>
+
     </mat-sidenav-content>
 </mat-sidenav-container>

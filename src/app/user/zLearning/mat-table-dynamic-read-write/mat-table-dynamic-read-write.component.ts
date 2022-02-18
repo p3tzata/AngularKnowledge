@@ -6,6 +6,7 @@ import * as globalSelector from '../../../+store/selector'
 import { IUser } from '../../shared/interface/user';
 import * as userSelector from '../../+store/user/user.selector'
 import * as userAction from '../../+store/user/user.action';
+import * as userDialogAction from '../../+store/user/user.dialog.action';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
@@ -19,6 +20,7 @@ import { ConfirmDialogModel, ConfirmDialogComponent } from '../../../core/shared
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {ColorThemeEnum} from '../../../core/shared/constant/globalEnum'
 import { EditDialogComponent } from '../../dialog/edit-dialog/edit-dialog.component';
+import { NewDialogComponent } from '../../dialog/new-dialog/new-dialog.component';
 
 @Component({
   selector: 'app-mat-table-dynamic-read-write',
@@ -82,19 +84,47 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
     });
 
 
-    this.actions$.pipe(takeUntil(this.killSubscribtion), ofType(userAction.openEditSingleRowDialogSignal)
+    this.actions$.pipe(takeUntil(this.killSubscribtion), ofType(userDialogAction.openEditSingleRowDialogSignal)
       
     ).subscribe( (x) =>
-      this.openEditSingleRowDialog( x.data)
+      this.openEditSingleRowDialog( x.payload)
     )
 
-    this.actions$.pipe(takeUntil(this.killSubscribtion), ofType(userAction.closeEditSingleRowDialogSignal)
+    this.actions$.pipe(takeUntil(this.killSubscribtion), ofType(userDialogAction.openNewRowDialogSignal)
+      
+    ).subscribe( (x) =>
+      this.openNewRowDialog( x.payload)
+    )
+
+    this.actions$.pipe(takeUntil(this.killSubscribtion), ofType(userDialogAction.closeDialogSignal)
       
     ).subscribe( (x) =>
       this.dialogRef.close()
     )
 
   }
+
+//New
+
+tryOpenNewRowDialog (){
+  this.store.dispatch(userDialogAction.tryOpenNewRowDialogSignal());
+}
+
+
+openNewRowDialog(payload: boolean): void {
+  this.dialogRef = this.dialog.open(NewDialogComponent,
+   {
+     data: {
+       width: '550px',
+       height: '550px',
+       payload: payload,
+     }
+   }
+ );
+ 
+};
+
+//New - end
 
 
 
@@ -142,12 +172,10 @@ onInput(e: any) {
       data: dialogData
     });
 
-    this.dialogRef.afterClosed().pipe(takeUntil(this.killSubscribtion)).subscribe(dialogResult => {
-      if (dialogResult) {
-        this.updateRow()
-      }
-      
-    });
+    this.dialogRef.componentInstance.onConfirmEmitter.pipe(takeUntil(this.killSubscribtion)).subscribe( ()=>
+      this.updateRow()
+    );
+    
   }
 
 
@@ -164,46 +192,39 @@ confirmDeleteSingleRowDialog(id: number, label: string): void {
     data: dialogData
   });
 
-  this.dialogRef.afterClosed().pipe(takeUntil(this.killSubscribtion)).subscribe(dialogResult => {
-    if (dialogResult) {
-      this.deleteSingleRow(id);
-    }
-    
-  });
+  this.dialogRef.componentInstance.onConfirmEmitter.subscribe( ()=>
+      this.deleteSingleRow(id)
+  );
+
+
 }
 
 deleteSingleRow(id: number) {
-  this.store.dispatch(userAction.delete_({ id: id }));
+  this.store.dispatch(userAction.delete_({ id }));
 }
 
 //DeleteSingleRow - end
 
+
 //EditSingle row
 
 tryOpenEditSingleRowDialog(id: number) {
-  this.store.dispatch(userAction.tryOpenEditSingleRowDialogSignal({id}));
+  this.store.dispatch(userDialogAction.tryOpenEditSingleRowDialogSignal({id}));
 }
 
 
-openEditSingleRowDialog(user: IUser): void {
+openEditSingleRowDialog(payload: any): void {
+  
    this.dialogRef = this.dialog.open(EditDialogComponent,
     {
       data: {
         width: '550px',
         height: '550px',
-        user: user,
+        payload: payload,
       }
     }
   );
-  /*
-  this.dialogRef.afterClosed().subscribe((data) => {
-    this.dataFromDialog = data.form;
-    if (data.clicked === 'submit') {
-      console.log('Sumbit button clicked')
-    }
-  });
-*/
-
+  
 };
 
 //EditSingle row -end

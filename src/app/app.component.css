@@ -7,3 +7,18 @@ mat-sidenav {
 mat-sidenav {
     width: 250px;
 }
+
+#maincontent{
+    padding-bottom:50px;
+}
+
+#footer {
+    display: flex;
+    height: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    
+    align-items: center;
+    justify-content: center;
+}

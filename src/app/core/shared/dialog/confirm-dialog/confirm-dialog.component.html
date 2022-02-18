@@ -1,3 +1,7 @@
+<div class="spinner-container" *ngIf="(spinner$ | async)">
+  <mat-spinner  mode="indeterminate"></mat-spinner>
+</div>
+
 <h1 mat-dialog-title>
     {{title}}
   </h1>

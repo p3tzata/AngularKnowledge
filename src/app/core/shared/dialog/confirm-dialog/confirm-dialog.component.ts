@@ -1,6 +1,10 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { IAppState } from '../../../../+store';
 import {ColorThemeEnum} from '../../constant/globalEnum'
+import * as globalSelector from '../../../../+store/selector'
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -12,9 +16,11 @@ export class ConfirmDialogComponent implements OnInit {
   message!: string;
   onConfirmBurronName!: string;
   onConfirmButtonColorThemeEnum!: ColorThemeEnum;
-
+  onConfirmEmitter = new EventEmitter();
+  spinner$!:Observable<boolean>;
   constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogModel) {
+    @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogModel,
+    private store: Store<IAppState>) {
       this.title = data.title;
       this.message = data.message;
       this.onConfirmBurronName=data.onConfirmButtonName;
@@ -22,6 +28,7 @@ export class ConfirmDialogComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    this.spinner$=this.store.select((x)=>{ return globalSelector.spinnerSelector(x)});
   }
 
   @HostListener('keydown', ['$event'])
@@ -34,7 +41,10 @@ export class ConfirmDialogComponent implements OnInit {
 
   onConfirm(): void {
     // Close the dialog, return true
-    this.dialogRef.close(true);
+    //this.dialogRef.close(true);
+    //this.dialogRef.keydownEvents
+    this.onConfirmEmitter.emit();
+    
   }
 
   onDismiss(): void {

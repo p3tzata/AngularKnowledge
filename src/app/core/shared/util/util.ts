@@ -1,3 +1,5 @@
+import { AbstractControl, FormControl, FormGroupDirective, NgForm } from "@angular/forms";
+import { ErrorStateMatcher } from "@angular/material/core";
 import * as const_ from "../constant/tabIndexConstant"
 
 export function generateTabIndexSchema_(el: {[key:string]: string} ): {[key:string]: number} {
@@ -26,3 +28,17 @@ export function generateTabIndexSchema(el: {[key:string]: string} ): [{[key:stri
      return [result,(ix-1)*const_.TAB_INDEX_OFFSET]  ;
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

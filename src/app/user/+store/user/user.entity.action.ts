@@ -2,7 +2,7 @@ import { createAction, props } from "@ngrx/store";
 import { EntityMap, EntityMapOne, Predicate, Update } from "@ngrx/entity";
 import { IUser } from "../../shared/interface/user";
 
-const namescapceEntity = '[UserEntity/API]'
+const namescapceEntity = '[USER/EntityAPI]'
 export const loadEntities = createAction(`${namescapceEntity} Load Entities`, props<{ entities: IUser[] }>());
 export const setEntities = createAction(`${namescapceEntity} Set Entities`, props<{ entities: IUser[] }>());
 export const addEntity = createAction(`${namescapceEntity} Add Entity`, props<{ entity: IUser }>());
