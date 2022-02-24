@@ -1,0 +1,27 @@
+{
+  "files.exclude": {
+    ".vs": true,
+    "*+store": false,
+    "*+store.*": false,
+    "*.vs": false,
+    "*.vs.*": false,
+    "*.vscode.*": false,
+    "*app-routing.module": false,
+    "*app-routing.module.*": false,
+    "*app.component": false,
+    "*app.component.*": false,
+    "*app.component.spec": false,
+    "*app.component.spec.*": false,
+    "*app.module": false,
+    "*app.module.*": false,
+    "*core": false,
+    "*core.*": false,
+    "*material.module": false,
+    "*material.module.*": false,
+    "*todo": false,
+    "*todo.*": false,
+    "*user": false,
+    "*user.*": false,
+    ".vscode": true
+  }
+}

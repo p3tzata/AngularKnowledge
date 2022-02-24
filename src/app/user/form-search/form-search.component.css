@@ -1,0 +1,11 @@
+
+  .msac-colors {
+    background-color: var(--primary-color);
+    color: white;
+  }
+
+
+
+  .example-chip-list {
+    width: 100%;
+  }

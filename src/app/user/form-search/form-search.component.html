@@ -1,0 +1,91 @@
+<div class="form-container">
+    {{this.form.value | json}}
+    <form [formGroup]="form">
+
+       
+        
+              
+      
+                <div class="example-chip-list">    
+                <mat-chip-list >
+                    <ng-container *ngFor="let entry of selectedUsernameFilterDataHtml | async">
+                      <mat-chip class="cardinal-colors" (click)="removeChipUsername(entry)">
+                        {{ entry.username }}
+                        <mat-icon class="mat-chip-remove">cancel</mat-icon>
+                      </mat-chip>
+                    </ng-container>
+                </mat-chip-list>
+
+                <mat-form-field class="example-chip-list" appearance="outline">
+                    
+                    
+
+                      <input matInput type="text" 
+                      placeholder="username"
+                      [matAutocomplete]="auto"
+                      formControlName="usernames">
+
+                    <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let data of usernameFilteredData | async">
+                          <div (click)="optionClicked($event, data)">
+                            <mat-checkbox [checked]="selectedUsernameFilterData.has(data!.id)" 
+                              (change)="toggleSelection(data)" 
+                              (click)="$event.stopPropagation()">
+                              {{ data!.username }}
+                            </mat-checkbox>
+                          </div>
+                        </mat-option>
+                      </mat-autocomplete>
+
+                  </mat-form-field>
+                  </div>
+
+
+                  <mat-form-field class="example-chip-list" appearance="fill">
+                    <mat-label>Favorite Fruits</mat-label>
+                    <mat-chip-list #chipList aria-label="Fruit selection">
+                      <mat-chip
+                        *ngFor="let fruit of selectedUsernameFilterDataHtml | async"
+                        (removed)="remove(fruit.username)">
+                        {{fruit.username}}
+                        <button matChipRemove>
+                          <mat-icon>cancel</mat-icon>
+                        </button>
+                      </mat-chip>
+                      <input
+                        placeholder="New fruit..."
+                        #fruitInput
+                        formControlName="usernames"
+                        [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                      <mat-option *ngFor="let fruit of usernameFilteredData | async" [value]="fruit">
+                        {{fruit}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input formControlName="name" matInput placeholder="Name">
+                    <mat-icon matSuffix>name</mat-icon>
+                    <mat-hint>Hint</mat-hint>
+                </mat-form-field>
+
+                <button mat-raised-button color="darker" (click)="submit(form.value)">
+                Search
+                </button>
+        
+
+  
+
+        
+        
+
+    </form>
+</div>
+

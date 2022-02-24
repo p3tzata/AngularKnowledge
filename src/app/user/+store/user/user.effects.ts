@@ -28,11 +28,25 @@ export class UserListEffects {
             catchError((err)=>{this.spinnerService.hide(); return [toastrAction.showFail({title: 'fail title',message: err.message})] } ),
             
             ) })
-
-        )
-        
+        )        
     );
    
+            
+    searchForm = createEffect(() => this.actions$.pipe(
+        ofType(userAction.searchForm),
+        switchMap ( (param) => { 
+            this.spinnerService.show();
+            return this.userService.searchForm(param.payload).pipe(
+            //tap()
+            takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
+            switchMap((x)=>{ this.spinnerService.hide(); return [userEntityAction.loadEntities({entities: x}) ] }   ),
+            catchError((err)=>{this.spinnerService.hide(); return [toastrAction.showFail({title: 'fail title',message: err.message})] } ),
+            ) })
+        )        
+    );
+
+
+
     delete = createEffect(() => this.actions$.pipe(
         ofType(userAction.delete_),
         switchMap ( (param) => 
@@ -54,13 +68,13 @@ export class UserListEffects {
         ofType(userAction.edit),
         switchMap ( (param) => {
             this.spinnerService.show();
-            return this.userService.editUser(param.update).pipe(
+            return this.userService.editUser(param.payload).pipe(
             takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
             switchMap((x)=>{
                             this.spinnerService.hide();
                             return [userDialogAction.closeDialogSignal(),
                             toastrAction.showSuccess({title: 'Edit',message:"Item is edited!"}),
-                            userEntityAction.updateEntity({update: {id: param.update.id, changes: param.update }})] }  ),
+                            userEntityAction.updateEntity({update: {id: param.payload.id, changes: param.payload }})] }  ),
             catchError((err)=> {
                             this.spinnerService.hide();
                             return [toastrAction.showFail({title: 'Fail Edit',message: err.message})] } ) 
@@ -73,7 +87,7 @@ export class UserListEffects {
         ofType(userAction.editInline),
         switchMap( (param) =>{
                 this.spinnerService.show();
-                return this.userService.editInline(param.update).pipe(
+                return this.userService.editInline(param.payload).pipe(
                 takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
                 switchMap( (x)=> {this.spinnerService.hide();
                                   return [
@@ -123,7 +137,7 @@ export class UserListEffects {
     ofType(userAction.new_),
     switchMap ( (param) => {
         this.spinnerService.show();
-        return this.userService.new_(param.insert).pipe(
+        return this.userService.new_(param.payload).pipe(
         takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
         switchMap((x)=>{
                         this.spinnerService.hide();

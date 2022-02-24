@@ -18,8 +18,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
-import {MatInput} from '@angular/material/input'
 import {MatMenuModule} from '@angular/material/menu'
+import {MatGridListModule} from '@angular/material/grid-list'
+import {MatChipsModule} from '@angular/material/chips'
 
 @NgModule ({
   imports: [
@@ -32,7 +33,9 @@ import {MatMenuModule} from '@angular/material/menu'
     MatInputModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatGridListModule,
+    MatChipsModule
   ],
   exports: [
     MatButtonModule,
@@ -54,7 +57,9 @@ import {MatMenuModule} from '@angular/material/menu'
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatGridListModule,
+    MatChipsModule
   ]
 })
 export class MaterialModule {

@@ -10,9 +10,11 @@ import { reducers } from './+store';
 
 import { EditDialogComponent } from './dialog/edit-dialog/edit-dialog.component';
 
-import { MatTableDynamicReadWriteComponent } from './zLearning/mat-table-dynamic-read-write/mat-table-dynamic-read-write.component';
+import { MatTableDynamicReadWriteComponent } from './mat-table-dynamic-read-write/mat-table-dynamic-read-write.component';
 import {DirectiveModule} from '../core/shared/directive/directive.module';
-import { NewDialogComponent } from './dialog/new-dialog/new-dialog.component'
+import { NewDialogComponent } from './dialog/new-dialog/new-dialog.component';
+import { IndexComponent } from './index/index.component';
+import { FormSearchComponent } from './form-search/form-search.component'
 
 
 
@@ -22,6 +24,8 @@ import { NewDialogComponent } from './dialog/new-dialog/new-dialog.component'
     EditDialogComponent,
     MatTableDynamicReadWriteComponent,
     NewDialogComponent,
+    IndexComponent,
+    FormSearchComponent,
   ],
   imports: [
     DirectiveModule,

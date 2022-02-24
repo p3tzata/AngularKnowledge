@@ -1,12 +1,12 @@
 ﻿import { RouterModule, Routes } from "@angular/router";
-import { MatTableDynamicReadWriteComponent } from "./zLearning/mat-table-dynamic-read-write/mat-table-dynamic-read-write.component";
+import { IndexComponent } from "./index/index.component";
 
 
 const routes: Routes = [
     
     {
         path: 'grid',
-        component: MatTableDynamicReadWriteComponent
+        component: IndexComponent
     },
     
     

@@ -1,26 +1,26 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {  Store } from '@ngrx/store';
-import { IAppState } from '../../../+store';
-import * as globalSelector from '../../../+store/selector'
-import { IUser } from '../../shared/interface/user';
-import * as userSelector from '../../+store/user/user.selector'
-import * as userAction from '../../+store/user/user.action';
-import * as userDialogAction from '../../+store/user/user.dialog.action';
+import { IAppState } from '../../+store';
+import * as globalSelector from '../../+store/selector'
+import { IUser } from '../shared/interface/user';
+import * as userSelector from '../+store/user/user.selector'
+import * as userAction from '../+store/user/user.action';
+import * as userDialogAction from '../+store/user/user.dialog.action';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { debounceTime, distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
-import { fromEvent, Observable, Subject } from 'rxjs';
+import { takeUntil, } from 'rxjs/operators';
+import {  Observable, Subject } from 'rxjs';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Actions, ofType } from '@ngrx/effects';
-import * as toastrAction from '../../../+store/toastr/toastr.action'
-import * as util from '../../../core/shared/util/util'
+import * as toastrAction from '../../+store/toastr/toastr.action'
+import * as util from '../../core/shared/util/util'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogModel, ConfirmDialogComponent } from '../../../core/shared/dialog/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogModel, ConfirmDialogComponent } from '../../core/shared/dialog/confirm-dialog/confirm-dialog.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import {ColorThemeEnum} from '../../../core/shared/constant/globalEnum'
-import { EditDialogComponent } from '../../dialog/edit-dialog/edit-dialog.component';
-import { NewDialogComponent } from '../../dialog/new-dialog/new-dialog.component';
+import {ColorThemeEnum} from '../../core/shared/constant/globalEnum'
+import { EditDialogComponent } from '../dialog/edit-dialog/edit-dialog.component';
+import { NewDialogComponent } from '../dialog/new-dialog/new-dialog.component';
 
 @Component({
   selector: 'app-mat-table-dynamic-read-write',
@@ -151,7 +151,7 @@ onInput(e: any) {
     
     if (users.length>0) {
     
-      this.store.dispatch(userAction.editInline({update: users}))
+      this.store.dispatch(userAction.editInline({payload: users}))
 
     } else {
 

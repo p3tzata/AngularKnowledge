@@ -56,7 +56,7 @@ export class EditDialogComponent implements OnInit,OnDestroy {
       
   let user:IUser = {...data, id: this.user.id }
    
-      this.store.dispatch( userAction.edit({update: user}))
+      this.store.dispatch( userAction.edit({payload: user}))
     
     }
   }

@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Update, UpdateNum } from '@ngrx/entity/src/models';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
-import {delay} from 'rxjs/operators'
+import {delay, filter, map} from 'rxjs/operators'
 import { IUser } from '../interface/user';
+import { IUserSearchForm } from '../interface/userSearchForm';
 
 
 @Injectable({
@@ -20,6 +21,13 @@ export class UserService {
   };
 
   
+  searchForm(data: IUserSearchForm):Observable<IUser[]> {
+    return this.httpClient.get<IUser[]>(this.url).pipe(map(x=> x.filter(x=>x.name.toLowerCase().includes(data.name.toLowerCase()))  )).pipe(delay(this.simulateDelaySec))
+  };
+
+  searchFormUsernameAutocomplete(data: string):Observable<IUser[]> {
+    return this.httpClient.get<IUser[]>(this.url).pipe(map(x=> x.filter(x=>x.username.toLowerCase().includes(data.toLowerCase()))  )).pipe(delay(this.simulateDelaySec-this.simulateDelaySec))
+  };
 
   getSingle(id: number):Observable<IUser> {
     return this.httpClient.get<IUser>(`${this.url}\\${id}`).pipe(delay(this.simulateDelaySec))

@@ -34,7 +34,7 @@ export class NewDialogComponent implements OnInit {
         username: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.required, Validators.minLength(3), Validators.email]],
       });
-      console.log(this.form)
+      //console.log(this.form)
      }
 
   ngOnInit(): void {
@@ -50,7 +50,7 @@ export class NewDialogComponent implements OnInit {
    
    if (this.form.valid) {
       
-      this.store.dispatch(userAction.new_({insert: data}))
+      this.store.dispatch(userAction.new_({payload: data}))
     
     }
   }
