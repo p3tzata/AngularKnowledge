@@ -1,91 +1,94 @@
-<div class="form-container">
-    {{this.form.value | json}}
-    <form [formGroup]="form">
+<form [formGroup]="form">
 
-       
-        
-              
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left center">
+    <div fxFlex="23%">
+
+      <mat-form-field  appearance="outline">
+        <mat-label>Choose a date</mat-label>
+        <input formControlName="dateStart" matInput [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+      </mat-form-field>
       
-                <div class="example-chip-list">    
-                <mat-chip-list >
-                    <ng-container *ngFor="let entry of selectedUsernameFilterDataHtml | async">
-                      <mat-chip class="cardinal-colors" (click)="removeChipUsername(entry)">
-                        {{ entry.username }}
-                        <mat-icon class="mat-chip-remove">cancel</mat-icon>
-                      </mat-chip>
-                    </ng-container>
-                </mat-chip-list>
-
-                <mat-form-field class="example-chip-list" appearance="outline">
-                    
-                    
-
-                      <input matInput type="text" 
-                      placeholder="username"
-                      [matAutocomplete]="auto"
-                      formControlName="usernames">
-
-                    <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
-                        <mat-option *ngFor="let data of usernameFilteredData | async">
-                          <div (click)="optionClicked($event, data)">
-                            <mat-checkbox [checked]="selectedUsernameFilterData.has(data!.id)" 
-                              (change)="toggleSelection(data)" 
-                              (click)="$event.stopPropagation()">
-                              {{ data!.username }}
-                            </mat-checkbox>
-                          </div>
-                        </mat-option>
-                      </mat-autocomplete>
-
-                  </mat-form-field>
-                  </div>
+    </div>
 
 
-                  <mat-form-field class="example-chip-list" appearance="fill">
-                    <mat-label>Favorite Fruits</mat-label>
-                    <mat-chip-list #chipList aria-label="Fruit selection">
-                      <mat-chip
-                        *ngFor="let fruit of selectedUsernameFilterDataHtml | async"
-                        (removed)="remove(fruit.username)">
-                        {{fruit.username}}
-                        <button matChipRemove>
-                          <mat-icon>cancel</mat-icon>
-                        </button>
-                      </mat-chip>
-                      <input
-                        placeholder="New fruit..."
-                        #fruitInput
-                        formControlName="usernames"
-                        [matAutocomplete]="auto"
-                        [matChipInputFor]="chipList"
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                        (matChipInputTokenEnd)="add($event)">
-                    </mat-chip-list>
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                      <mat-option *ngFor="let fruit of usernameFilteredData | async" [value]="fruit">
-                        {{fruit}}
-                      </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
+    <div fxFlex="20%">
+    
+      <mat-radio-group formControlName="radioSelect" aria-label="Select an option">
+        <mat-radio-button value="1">Option 1</mat-radio-button>
+        <mat-radio-button value="2">Option 2</mat-radio-button>
+      </mat-radio-group>
+    
+    </div>
+
+    
 
 
-                  <mat-form-field appearance="outline">
-                    <mat-label>Name</mat-label>
-                    <input formControlName="name" matInput placeholder="Name">
-                    <mat-icon matSuffix>name</mat-icon>
-                    <mat-hint>Hint</mat-hint>
-                </mat-form-field>
 
-                <button mat-raised-button color="darker" (click)="submit(form.value)">
-                Search
-                </button>
-        
+  </div>
 
-  
 
-        
-        
 
-    </form>
-</div>
+  <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left">
 
+
+    <div fxFlex="79">
+      <mat-form-field class="chip-list" appearance="outline">
+        <mat-label>Usernames</mat-label>
+        <mat-chip-list #chipList>
+          <ng-container *ngFor="let entry of selectedUsernameFilterDataHtml | async">
+            <mat-chip class="cardinal-colors" (click)="removeChipUsername(entry)" title="{{entry?.username}}">
+
+              {{ trimStringUsernameChips(entry?.username) }}
+
+              <mat-icon class="mat-chip-remove">cancel</mat-icon>
+            </mat-chip>
+          </ng-container>
+
+
+          <input placeholder="Search..." #selectUsernameInput formControlName="usernames" [matAutocomplete]="auto"
+            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            >
+
+        </mat-chip-list>
+
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let data of usernameFilteredData | async">
+            <div (click)="optionClicked($event, data)">
+              <mat-checkbox [checked]="selectedUsernameFilterData.has(data!.id)" (change)="toggleSelection(data)"
+                (click)="$event.stopPropagation()">
+                {{ data!.username }}
+              </mat-checkbox>
+            </div>
+          </mat-option>
+        </mat-autocomplete>
+
+      </mat-form-field>
+    </div>
+    <div fxFlex="20">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input formControlName="name" matInput placeholder="Name">
+        <mat-icon matSuffix>name</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </div>
+
+  </div>
+  <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left">
+
+    <div fxFlex="20">
+
+
+
+      <button mat-raised-button color="darker" (click)="submit(form.value)">
+        Search
+      </button>
+
+
+    </div>
+  </div>
+</form>
+{{this.form.value | json}}

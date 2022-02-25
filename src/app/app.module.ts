@@ -35,6 +35,7 @@ import {global }   from './+store/reducer'
     StoreDevtoolsModule.instrument({}),
     ToastrModule.forRoot(),
     
+    
   ],exports: [],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,8 +4,11 @@
     color: white;
   }
 
-
-
-  .example-chip-list {
+  .chip-list {
     width: 100%;
+  }
+
+.custom-date-class-orange {
+    background: orange;
+    border-radius: 100%;
   }

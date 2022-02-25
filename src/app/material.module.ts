@@ -16,11 +16,16 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import {MatMenuModule} from '@angular/material/menu'
 import {MatGridListModule} from '@angular/material/grid-list'
 import {MatChipsModule} from '@angular/material/chips'
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { CustomDateAdapter, MAT_DATE_FORMATS_dd_mm_yyyy } from "./core/shared/util/dateUtil";
+import {MatRadioModule} from '@angular/material/radio'
+
+
 
 @NgModule ({
   imports: [
@@ -35,7 +40,10 @@ import {MatChipsModule} from '@angular/material/chips'
     MatProgressSpinnerModule,
     MatMenuModule,
     MatGridListModule,
-    MatChipsModule
+    MatChipsModule,
+    FlexLayoutModule,
+    MatRadioModule
+    
   ],
   exports: [
     MatButtonModule,
@@ -59,7 +67,14 @@ import {MatChipsModule} from '@angular/material/chips'
     MatProgressSpinnerModule,
     MatMenuModule,
     MatGridListModule,
-    MatChipsModule
+    MatChipsModule,
+    FlexLayoutModule,
+    MatRadioModule
+    
+  ],
+  providers: [
+    {provide: DateAdapter, useClass: CustomDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FORMATS_dd_mm_yyyy },
   ]
 })
 export class MaterialModule {
