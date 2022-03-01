@@ -14,7 +14,8 @@ import { MatTableDynamicReadWriteComponent } from './mat-table-dynamic-read-writ
 import {DirectiveModule} from '../core/shared/directive/directive.module';
 import { NewDialogComponent } from './dialog/new-dialog/new-dialog.component';
 import { IndexComponent } from './index/index.component';
-import { FormSearchComponent } from './form-search/form-search.component'
+import { FormSearchComponent } from './form-search/form-search.component';
+import { MatTableSlaveComponent } from './mat-table-slave/mat-table-slave.component'
 
 
 
@@ -26,6 +27,7 @@ import { FormSearchComponent } from './form-search/form-search.component'
     NewDialogComponent,
     IndexComponent,
     FormSearchComponent,
+    MatTableSlaveComponent,
   ],
   imports: [
     DirectiveModule,

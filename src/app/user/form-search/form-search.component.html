@@ -3,26 +3,26 @@
   <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left center">
     <div fxFlex="23%">
 
-      <mat-form-field  appearance="outline">
+      <mat-form-field appearance="outline">
         <mat-label>Choose a date</mat-label>
         <input formControlName="dateStart" matInput [matDatepicker]="picker">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
       </mat-form-field>
-      
+
     </div>
 
 
     <div fxFlex="20%">
-    
+
       <mat-radio-group formControlName="radioSelect" aria-label="Select an option">
         <mat-radio-button value="1">Option 1</mat-radio-button>
         <mat-radio-button value="2">Option 2</mat-radio-button>
       </mat-radio-group>
-    
+
     </div>
 
-    
+
 
 
 
@@ -48,8 +48,7 @@
 
 
           <input placeholder="Search..." #selectUsernameInput formControlName="usernames" [matAutocomplete]="auto"
-            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            >
+            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
 
         </mat-chip-list>
 
@@ -81,7 +80,9 @@
 
     <div fxFlex="20">
 
-
+      <mat-error *ngIf="this.form.hasError('nameOrDateStart') && fc.name.touched && fc.dateStart.touched">
+        <p>Must fill <strong>DateStart</strong> or <strong>Name</strong><p>
+    </mat-error>
 
       <button mat-raised-button color="darker" (click)="submit(form.value)">
         Search
@@ -91,4 +92,4 @@
     </div>
   </div>
 </form>
-{{this.form.value | json}}
+<!-- {{this.form.value | json}} -->

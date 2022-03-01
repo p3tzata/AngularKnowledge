@@ -1,113 +1,110 @@
-
 <div class="spinner-container" *ngIf="(spinner$ | async)">
-    <mat-spinner  mode="indeterminate"></mat-spinner>
+    <mat-spinner mode="indeterminate"></mat-spinner>
 </div>
 
 <button mat-button color="primary" (click)="tryOpenNewRowDialog()">New</button>
 <button mat-button color="primary" (click)="confirmInlineEditDialog()">Update inline (F10)</button>
-
+view_headline
 <mat-table class="mat-elevation-z8" [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
 
     <ng-container matColumnDef="checkbox">
-        
-        <mat-header-cell  *matHeaderCellDef >
-        
-            <mat-checkbox color="warn" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" 
+
+        <mat-header-cell *matHeaderCellDef>
+
+            <mat-checkbox color="warn" (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
                 [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
             </mat-checkbox>
-        
+
         </mat-header-cell>
-      
-        <mat-cell  class="duration-cell" *matCellDef="let element">
-            
-            <mat-checkbox tabindex="-1"  color="warn" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null" 
-                [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)">
+
+        <mat-cell class="duration-cell" *matCellDef="let element">
+
+            <mat-checkbox tabindex="-1" color="warn" (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(element) : null" [checked]="selection.isSelected(element)"
+                [aria-label]="checkboxLabel(element)">
             </mat-checkbox>
-            
+
         </mat-cell>
 
     </ng-container>
 
-    <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumnsLoop;let i=index" >
-        <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by this column">{{col}}</mat-header-cell>
-        
+    <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumnsLoop;let i=index">
+        <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by this column">{{col}}
+        </mat-header-cell>
+
         <mat-cell class="duration-cell" *matCellDef="let element;let i = index">
             <mat-form-field *ngIf="dataSchema[col]; else defaultMatCell ">
-                
-                <input appTabIndexMove={{i+1+tabIndexSchema[col]}}
-                appMaxTabIndexOffsetMove="{{maxTabIndexOffset}}"
-                [type]="dataSchema[col]" matInput [value]="element[col]" 
-                (keyup)="doSelect($event,element); setInline(element.id,element,col, $any($event.target).value)"  > 
+
+                <input appTabIndexMove={{i+1+tabIndexSchema[col]}} appMaxTabIndexOffsetMove="{{maxTabIndexOffset}}"
+                    [type]="dataSchema[col]" matInput [value]="element[col]"
+                    (keyup)="doSelect($event,element); setInline(element.id,element,col, $any($event.target).value)">
             </mat-form-field>
-            
+
             <ng-template #defaultMatCell>
-               <span>{{element[col]}}</span>
+                <span>{{element[col]}}</span>
             </ng-template>
 
 
         </mat-cell>
-         
+
     </ng-container>
 
-    <ng-container matColumnDef="editSingleRow">
-        
-        <mat-header-cell  *matHeaderCellDef >
-        
-            Edit
-        
+    
+    <ng-container matColumnDef="tabLines">
+        <mat-header-cell *matHeaderCellDef>
+            Lines
         </mat-header-cell>
-              
 
-        <mat-cell  class="duration-cell" *matCellDef="let element">
-            
-            
-
-           
-                <button mat-button (click)="tryOpenEditSingleRowDialog(element.id)">
-                  <mat-icon>edit</mat-icon>
-                  
-                </button>
-            
-            
+        <mat-cell class="duration-cell" *matCellDef="let element">
+            <button mat-button (click)="tryOpenLines(element.id)">
+                <mat-icon>view_headline</mat-icon>
+            </button>
         </mat-cell>
-        
+    </ng-container>
+
+
+
+    <ng-container matColumnDef="editSingleRow">
+        <mat-header-cell *matHeaderCellDef>
+            Edit
+        </mat-header-cell>
+
+        <mat-cell class="duration-cell" *matCellDef="let element">
+            <button mat-button (click)="tryOpenEditSingleRowDialog(element.id)">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </mat-cell>
     </ng-container>
 
 
     <ng-container matColumnDef="popUpMenu">
-        
-        <mat-header-cell  *matHeaderCellDef >
-        
+        <mat-header-cell *matHeaderCellDef>
             Menu
-        
         </mat-header-cell>
-              
 
-        <mat-cell  class="duration-cell" *matCellDef="let element">
-            
+        <mat-cell class="duration-cell" *matCellDef="let element">
             <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                 <mat-icon>more_vert</mat-icon>
             </button>
 
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="confirmDeleteSingleRowDialog(element.id,element.name)">
-                  <mat-icon>delete</mat-icon>
-                  <span>Delete</span>
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
                 </button>
             </mat-menu>
-            
         </mat-cell>
-        
     </ng-container>
 
 
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-    <mat-row [ngClass]="{'highlight': selection.isSelected(row)}"  *matRowDef="let row ; columns: displayedColumns" ></mat-row>
-    
-    
+    <mat-row [ngClass]="{'highlight': selection.isSelected(row)}" *matRowDef="let row ; columns: displayedColumns">
+    </mat-row>
+
+
 </mat-table>
 <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page">
 </mat-paginator>
-

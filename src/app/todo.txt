@@ -1,7 +1,8 @@
- auto complete който да се изпълнява след 2 секунди, date picker, checkbox. 
- tabulation
+
+V form validate multi inputs 
+o tabulation
+o export to xls
 
  
 fix: 
  For Delete:  delete-dialog
- edit form

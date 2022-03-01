@@ -3,21 +3,10 @@ import {  on } from "@ngrx/store";
 import { IUser } from "../../shared/interface/user";
 
 import {IUserEntity} from '../'
-import * as userActions from './user.action';
 import * as userEntityActions from './user.entity.action';
+import * as userActions from './user.action'
 
 import { createEntityAdapter, EntityAdapter } from "@ngrx/entity";
-
-export interface IUserListState {
-    readonly list: IUser[] ;
-};
-
-
-const initialState: IUserListState =  {
-   
-    list: []
-};
-
 
 
 
@@ -44,6 +33,9 @@ export const initialIUserEntityState: IUserEntity = userAdapter.getInitialState(
   
   export const userEntityReducer = createReducer(
     initialIUserEntityState,
+    on(userActions.setSelected, (state, { payload }) => {
+      return {...state, selectedUserId: payload}
+    } ),
     on(userEntityActions.addEntity, (state, { entity }) => {
       return userAdapter.addOne(entity, state)
     }),

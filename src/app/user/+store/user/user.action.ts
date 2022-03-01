@@ -14,6 +14,13 @@ export const load = createAction(
     `${namescapce} load`
 );
 
+export const setSelected = createAction(
+    `${namescapce} setSelected`,
+    props<{ payload: number }>()
+);
+
+
+
 export const searchForm = createAction(
     `${namescapce} searchForm`,
     props<{ payload: IUserSearchForm }>()
@@ -38,3 +45,13 @@ export const editInline = createAction(
     `${namescapce} edit inline`,
     props<{payload: IUser[]}>()
 );
+
+export const tryOpenLinesSignal = createAction(
+    `${namescapce} tryOpenLinesSignal`,
+    props<{payload: number}>()
+);
+
+export const оpenLinesТabSignal = createAction(
+    `${namescapce} оpenLinesТabSignal`
+);
+

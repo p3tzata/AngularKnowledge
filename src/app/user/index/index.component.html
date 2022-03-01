@@ -1,4 +1,30 @@
+<mat-tab-group [selectedIndex]="getSelected()" (selectedIndexChange)="setSelected($event)">
+    
+    <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">person</mat-icon>
+          Users
+        </ng-template>
 
-<app-form-search></app-form-search>
+        <app-form-search></app-form-search>
 
-<app-mat-table-dynamic-read-write></app-mat-table-dynamic-read-write>
+        <app-mat-table-dynamic-read-write></app-mat-table-dynamic-read-write>
+     
+    </mat-tab>
+
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">view_headline</mat-icon>
+          Comments
+        </ng-template>
+
+        <app-mat-table-slave></app-mat-table-slave>
+     
+    </mat-tab>
+
+
+
+
+
+</mat-tab-group>

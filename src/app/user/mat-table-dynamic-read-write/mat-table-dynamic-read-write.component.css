@@ -4,12 +4,10 @@
 .mat-column-id {
     flex: 0 0 5%;
 }
-.mat-column-editSingleRow {
+.mat-column-editSingleRow .mat-column-menu .mat-column-tabLines{
     flex: 0 0 10%;
 }
-.mat-column-menu {
-    flex: 0 0 10%;
-}
+
 .highlight{
     background: #a1b4a2; /* green */
 }

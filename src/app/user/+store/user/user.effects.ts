@@ -6,6 +6,8 @@ import { UserService } from "../../shared/service/user.service";
 import * as userAction from "./user.action";
 import * as userDialogAction from "./user.dialog.action";
 import * as userEntityAction from './user.entity.action';
+import * as postEntityAction from '../post/post.entity.action';
+
 import * as toastrAction from '../../../+store/toastr/toastr.action'
 import {SpinnerService} from '../../../core/shared/service/spinner.service'
 @Injectable()
@@ -40,6 +42,23 @@ export class UserListEffects {
             //tap()
             takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
             switchMap((x)=>{ this.spinnerService.hide(); return [userEntityAction.loadEntities({entities: x}) ] }   ),
+            catchError((err)=>{this.spinnerService.hide(); return [toastrAction.showFail({title: 'fail title',message: err.message})] } ),
+            ) })
+        )        
+    );
+
+    tryOpenLinesSignal = createEffect(() => this.actions$.pipe(
+        ofType(userAction.tryOpenLinesSignal),
+        switchMap ( (param) => { 
+            this.spinnerService.show();
+            return this.userService.loadPostByUserId(param.payload).pipe(
+            //tap()
+            takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
+            switchMap((x)=>{ 
+                this.spinnerService.hide();
+                return [userAction.оpenLinesТabSignal(),
+                        postEntityAction.loadEntities({entities: x}),
+                        userAction.setSelected({payload:param.payload}) ] }   ),
             catchError((err)=>{this.spinnerService.hide(); return [toastrAction.showFail({title: 'fail title',message: err.message})] } ),
             ) })
         )        

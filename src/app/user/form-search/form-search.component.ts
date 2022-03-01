@@ -13,6 +13,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import {MatCalendarCellClassFunction} from '@angular/material/datepicker';
 import {Moment} from 'moment'
+import { multiFieldTestValidator } from '../shared/service/formValidator/multiFieldTestValidator';
 
 @Component({
   selector: 'app-form-search',
@@ -87,7 +88,7 @@ export class FormSearchComponent implements OnInit, OnDestroy {
       usernamesSelected: ['', []],
       dateStart:['', []],
       radioSelect:['', []],
-    });
+    }, {validator: multiFieldTestValidator } );
   }
 
 
@@ -172,6 +173,10 @@ dateClass: MatCalendarCellClassFunction<Moment> = (cellDate, view) => {
 
 
   submit(data: IUserSearchForm) {
+    this.form.markAllAsTouched();    
+
+    console.log(this.form)
+
     if (!this.form.invalid) {
       this.store.dispatch(userAction.searchForm({ payload: data }))
     }
