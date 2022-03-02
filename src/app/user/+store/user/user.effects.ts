@@ -69,7 +69,7 @@ export class UserListEffects {
     delete = createEffect(() => this.actions$.pipe(
         ofType(userAction.delete_),
         switchMap ( (param) => 
-            {this.spinnerService.show();
+            {this.spinnerService.showDialog();
             return this.userService.deleteUser(param.id).pipe(
             takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
             switchMap((x)=>{this.spinnerService.hide();
@@ -86,7 +86,7 @@ export class UserListEffects {
     edit = createEffect(() => this.actions$.pipe(
         ofType(userAction.edit),
         switchMap ( (param) => {
-            this.spinnerService.show();
+            this.spinnerService.showDialog();
             return this.userService.editUser(param.payload).pipe(
             takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
             switchMap((x)=>{
@@ -105,7 +105,7 @@ export class UserListEffects {
     editEntitiesInline = createEffect( ()=> this.actions$.pipe(
         ofType(userAction.editInline),
         switchMap( (param) =>{
-                this.spinnerService.show();
+                this.spinnerService.showDialog();
                 return this.userService.editInline(param.payload).pipe(
                 takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
                 switchMap( (x)=> {this.spinnerService.hide();
@@ -155,7 +155,7 @@ export class UserListEffects {
  new_ = createEffect(() => this.actions$.pipe(
     ofType(userAction.new_),
     switchMap ( (param) => {
-        this.spinnerService.show();
+        this.spinnerService.showDialog();
         return this.userService.new_(param.payload).pipe(
         takeUntil(this.actions$.pipe(ofType(userAction.cancel))),
         switchMap((x)=>{

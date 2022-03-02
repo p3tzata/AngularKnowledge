@@ -28,7 +28,7 @@ export class ConfirmDialogComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    this.spinner$=this.store.select((x)=>{ return globalSelector.spinnerSelector(x)});
+    this.spinner$=this.store.select((x)=>{ return globalSelector.spinnerDialogSelector(x)});
   }
 
   @HostListener('keydown', ['$event'])

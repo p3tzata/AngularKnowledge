@@ -18,6 +18,10 @@ export class SpinnerService {
     this.store.dispatch(globalAction.showSpinner());
   }
 
+  showDialog():void {
+    this.store.dispatch(globalAction.showDialogSpinner());
+  }
+
   hide():void {
     this.store.dispatch(globalAction.hideSpinner());
   }

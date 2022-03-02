@@ -21,6 +21,8 @@ export class MatTableSlaveComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   dataSource!: MatTableDataSource<IPost>;
   killSubscribtion = new Subject();
+  displayedColumns = ['id','title'];
+
   constructor(private _liveAnnouncer: LiveAnnouncer,private store: Store<IAppState>) { }
 
   ngOnInit(): void {

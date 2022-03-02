@@ -4,7 +4,7 @@ import { IAppState } from ".";
 import * as globalAction from './action'
 
 export const initialAppState:IAppState = {
-    global:{showSpinner: false},
+    global:{showSpinner: false, showDialogSpinner: false},
     userModule: undefined
 
   };
@@ -12,7 +12,8 @@ export const initialAppState:IAppState = {
 const globalReducerCreator = createReducer(
     initialAppState,
     on(globalAction.showSpinner, (state)=> {return {...state,showSpinner:true}}),
-    on(globalAction.hideSpinner, (state)=> {return {...state,showSpinner:false}})
+    on(globalAction.showDialogSpinner, (state)=> {return {...state,showDialogSpinner:true}}),
+    on(globalAction.hideSpinner, (state)=> {return {...state,showSpinner:false, showDialogSpinner:false }})
 )
 
 

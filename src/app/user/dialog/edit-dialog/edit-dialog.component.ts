@@ -41,7 +41,7 @@ export class EditDialogComponent implements OnInit,OnDestroy {
   
 
   ngOnInit(): void {
-    this.spinner$=this.store.select((x)=>{ return globalSelector.spinnerSelector(x)});
+    this.spinner$=this.store.select((x)=>{ return globalSelector.spinnerDialogSelector(x)});
    
    
     

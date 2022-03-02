@@ -8,6 +8,11 @@ export const showSpinner = createAction(
     `${namescapce} showSpinner`
 );
 
+export const showDialogSpinner = createAction(
+    `${namescapce} showDialogSpinner`
+);
+
+
 export const hideSpinner = createAction(
     `${namescapce} hideSpinner`
 );
