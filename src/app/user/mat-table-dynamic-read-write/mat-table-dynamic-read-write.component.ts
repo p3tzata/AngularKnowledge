@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Inject, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../+store';
@@ -21,6 +21,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ColorThemeEnum } from '../../core/shared/constant/globalEnum'
 import { EditDialogComponent } from '../dialog/edit-dialog/edit-dialog.component';
 import { NewDialogComponent } from '../dialog/new-dialog/new-dialog.component';
+import * as XLSX from 'xlsx';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-mat-table-dynamic-read-write',
@@ -28,7 +30,7 @@ import { NewDialogComponent } from '../dialog/new-dialog/new-dialog.component';
   styleUrls: ['./mat-table-dynamic-read-write.component.css']
 })
 export class MatTableDynamicReadWriteComponent implements OnInit {
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatSort) sort!: MatSort 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   selection = new SelectionModel<IUser>(true, []);
@@ -52,9 +54,11 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
   }
 
   inlineEdited: { [key: number]: IUser } = {};
+  
 
-
-  constructor(private store: Store<IAppState>,
+  constructor(
+    @Inject(LOCALE_ID) private locale: string,
+    private store: Store<IAppState>,
     private actions$: Actions,
     private dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer) {
@@ -103,6 +107,34 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
     )
 
   }
+
+  //Xlsx
+
+  exportAsExcel(label:string) {
+
+    let dateString = formatDate(Date.now(),'dd_MM_yyyy-HH_mm_ss',this.locale)
+    let filename = label+"_"+dateString;
+
+    let sortedData = new MatSort();
+    if (this.dataSource.sort != null) {
+      sortedData = this.dataSource.sort
+    }
+
+    let entities = this.dataSource.sortData(this.dataSource.data, sortedData);
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(entities)
+
+
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, `${filename}.xlsx`);
+
+  }
+
+  //Xlsx - end
+
+
 
   //New
 
@@ -216,7 +248,7 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
 
   //Open lines - end
   tryOpenLines(id: number) {
-    
+
     this.store.dispatch(userAction.tryOpenLinesSignal({ payload: id }))
   }
 

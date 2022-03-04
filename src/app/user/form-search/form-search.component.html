@@ -1,30 +1,30 @@
 <form [formGroup]="form">
 
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left center">
-    <div fxFlex="23%">
+  <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left center">
 
-      <mat-form-field appearance="outline">
+
+    <div fxFlex="20" >
+      
+      <mat-form-field fxFlexFill  appearance="outline">
         <mat-label>Choose a date</mat-label>
         <input formControlName="dateStart" matInput [matDatepicker]="picker">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
       </mat-form-field>
 
+
+
+
+
     </div>
+    <div fxFlex="20" >
 
-
-    <div fxFlex="20%">
-
-      <mat-radio-group formControlName="radioSelect" aria-label="Select an option">
+      <mat-radio-group fxFlexFill formControlName="radioSelect" aria-label="Select an option">
         <mat-radio-button value="1">Option 1</mat-radio-button>
         <mat-radio-button value="2">Option 2</mat-radio-button>
       </mat-radio-group>
 
     </div>
-
-
-
-
 
   </div>
 
@@ -33,25 +33,26 @@
   <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left">
 
 
-    <div fxFlex="79">
-      <mat-form-field class="chip-list" appearance="outline">
+    <div fxFlex="40">
+      
+      <mat-form-field fxFlexFill appearance="outline">
         <mat-label>Usernames</mat-label>
         <mat-chip-list #chipList>
           <ng-container *ngFor="let entry of selectedUsernameFilterDataHtml | async">
             <mat-chip class="cardinal-colors" (click)="removeChipUsername(entry)" title="{{entry?.username}}">
-
+  
               {{ trimStringUsernameChips(entry?.username) }}
-
+  
               <mat-icon class="mat-chip-remove">cancel</mat-icon>
             </mat-chip>
           </ng-container>
-
-
+  
+  
           <input placeholder="Search..." #selectUsernameInput formControlName="usernames" [matAutocomplete]="auto"
             [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-
+  
         </mat-chip-list>
-
+  
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let data of usernameFilteredData | async">
             <div (click)="optionClicked($event, data)">
@@ -62,12 +63,17 @@
             </div>
           </mat-option>
         </mat-autocomplete>
-
+  
       </mat-form-field>
+
+
+
+
+
     </div>
     <div fxFlex="20">
 
-      <mat-form-field appearance="outline">
+      <mat-form-field fxFlexFill appearance="outline">
         <mat-label>Name</mat-label>
         <input formControlName="name" matInput placeholder="Name">
         <mat-icon matSuffix>name</mat-icon>

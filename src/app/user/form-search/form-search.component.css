@@ -1,4 +1,8 @@
 
+  .example-form-field {
+    margin: 0 8px 16px 0;
+  }
+  
   .msac-colors {
     background-color: var(--primary-color);
     color: white;
@@ -11,4 +15,10 @@
 .custom-date-class-orange {
     background: orange;
     border-radius: 100%;
-  }
+}
+.custom-orange {
+  background: orange;
+}
+
+
+  

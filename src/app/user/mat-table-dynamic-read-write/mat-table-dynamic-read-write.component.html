@@ -2,10 +2,11 @@
     <mat-spinner mode="indeterminate"></mat-spinner>
 </div>
 
-<button mat-button color="primary" (click)="tryOpenNewRowDialog()">New</button>
-<button mat-button color="primary" (click)="confirmInlineEditDialog()">Update inline (F10)</button>
+<button mat-button color="primary" (click)="tryOpenNewRowDialog()"><mat-icon class="mat-chip-remove">add_box</mat-icon> New</button>
+<button mat-button color="primary" (click)="confirmInlineEditDialog()"> <mat-icon class="mat-chip-remove">save</mat-icon> Update inline (F10)</button>
+<button mat-button color="primary" (click)="exportAsExcel('users')"> <mat-icon>archive</mat-icon> Xlsx</button>
 
-<mat-table class="mat-elevation-z8" [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+<mat-table class="mat-elevation-z8" #table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
 
     <ng-container matColumnDef="checkbox">
 
@@ -106,5 +107,6 @@
 
 
 </mat-table>
+
 <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page">
 </mat-paginator>
