@@ -23,6 +23,7 @@ import { EditDialogComponent } from '../dialog/edit-dialog/edit-dialog.component
 import { NewDialogComponent } from '../dialog/new-dialog/new-dialog.component';
 import * as XLSX from 'xlsx';
 import {formatDate} from '@angular/common';
+import { SpinnerService } from '../../core/shared/service/spinner.service';
 
 @Component({
   selector: 'app-mat-table-dynamic-read-write',
@@ -59,6 +60,7 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
   constructor(
     @Inject(LOCALE_ID) private locale: string,
     private store: Store<IAppState>,
+    private spinnerSrv: SpinnerService,
     private actions$: Actions,
     private dialog: MatDialog,
     private _liveAnnouncer: LiveAnnouncer) {
@@ -111,7 +113,9 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
   //Xlsx
 
   exportAsExcel(label:string) {
-
+    
+    this.spinnerSrv.show();
+    
     let dateString = formatDate(Date.now(),'dd_MM_yyyy-HH_mm_ss',this.locale)
     let filename = label+"_"+dateString;
 
@@ -129,7 +133,9 @@ export class MatTableDynamicReadWriteComponent implements OnInit {
 
     /* save to file */
     XLSX.writeFile(wb, `${filename}.xlsx`);
+    this.spinnerSrv.hide();
 
+    
   }
 
   //Xlsx - end
